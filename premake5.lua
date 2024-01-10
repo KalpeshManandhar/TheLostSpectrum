@@ -2,7 +2,8 @@ raylib_dir = "E:\\libraries\\raylib\\raylibMSVC\\raylib-4.5.0_win64_msvc16"
 
 workspace "TheLostSpectrum"  
     configurations { "Debug", "Release" } 
-    project "Test"  
+    architecture "x64"
+    project "TheLostSpectrum"  
     kind "ConsoleApp"   
     language "C++"   
     targetdir "bin/%{cfg.buildcfg}" 
