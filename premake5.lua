@@ -1,6 +1,7 @@
 workspace "TheLostSpectrum"  
     configurations { "Debug", "Release" } 
-    project "Test"  
+    architecture "x64"
+    project "TheLostSpectrum"  
     kind "ConsoleApp"   
     language "C++"   
     targetdir "bin/%{cfg.buildcfg}" 
