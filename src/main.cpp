@@ -3,11 +3,11 @@
 
 #include <stdint.h>
 
+#include "tests/tests.h"
+
 struct Window{
     int w,h;
 };
-
-
 
 
 int main(void){
@@ -20,6 +20,8 @@ int main(void){
     InitWindow(width, height, "The Lost Spectrum");
 
     SetTargetFPS(60);
+    auto testData = testInit();
+
 
     float accumulator = 0;
 
@@ -42,6 +44,7 @@ int main(void){
 
         ClearBackground(background);
 
+        testLoop(&testData, deltaTime);
         
         EndDrawing();
 

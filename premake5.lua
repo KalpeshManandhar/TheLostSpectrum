@@ -9,21 +9,25 @@ workspace "TheLostSpectrum"
     language "C++"   
     targetdir "bin/%{cfg.buildcfg}" 
     files {"./src/**.cpp" } 
+
     
     includedirs {"./src/", raylib_dir .. "/include"}
     libdirs {raylib_dir .. "/lib"}
     links {
-        "msvcrt", 
+        -- "msvcrt", 
+        -- "msvcrtd", 
+        -- "libcmt", 
+        -- "libcmtd", 
         "raylib", 
-        "OpenGL32", 
-        "Gdi32", 
+        -- "OpenGL32", 
+        -- "Gdi32", 
         "WinMM", 
         "kernel32", 
         "shell32", 
         "User32",
     }
-    ignoredefaultlibraries {"libcmt"}
-
+    -- ignoredefaultlibraries {"libcmt"}
+    
     filter "configurations:Debug"
     defines { "DEBUG" }  
     symbols "On" 
