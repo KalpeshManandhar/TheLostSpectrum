@@ -6,6 +6,7 @@
 #include "tests/tests.h"
 
 #include "splashScreen.cpp"
+#include "player.cpp"
 struct Window{
     int w,h;
 };
@@ -18,6 +19,7 @@ int main(void){
     Window w = {
         1280, 720,
     };
+    player p1;
     InitWindow(width, height, "The Lost Spectrum");
 
 
@@ -54,6 +56,8 @@ int main(void){
         ClearBackground(background);
 
         testLoop(&testData, deltaTime);
+        p1.draw();
+        p1.movementCheck();
         DrawText("INITIAL CONVERSATION STARTS", static_cast<int>((width/2)-250), static_cast<int>(height/2), 50, WHITE);
         
         
