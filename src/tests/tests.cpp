@@ -1,5 +1,6 @@
 #include "tests.h"
 #include "../core/animation.h"
+#include "../core/slime.h"
 
 
 AnimationSheet slimeAnimate(){
@@ -12,16 +13,25 @@ AnimationSheet slimeAnimate(){
 
 TestData testInit(){
     TestData t;
-    t.slime = slimeAnimate();
+    Rectangle r = {
+        0,0,
+        200,150
+    };
+    // t.slime = slimeAnimate();
+    t.slime = Slime(r);
     return t;
 }
 
 
 void testLoop(TestData *t, float deltaTime){
-    Rectangle r = {
-        0,0,
-        200,150
-    };
-    t->slime.playAnimation("idle", deltaTime, r);
+    t->slime.resolveChanges();
+}
+
+void testDisplay(TestData *t, float deltaTime){
+    t->slime.animate(deltaTime);
+}
+
+void testFixedLoop(TestData *t, float deltaTime){
+    t->slime.update(deltaTime);
 }
 

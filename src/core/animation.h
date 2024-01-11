@@ -21,6 +21,8 @@ struct AnimationSheet{
     float accumulator;
     Animation *currentAnimation;
 
+    const char *defaultAnimation;
+
     std::unordered_map<const char*, Animation> animations;
 
     AnimationSheet(){}
@@ -51,6 +53,10 @@ struct AnimationSheet{
         frameDelay = 1.0f/fps;
     }
 
+    void setDefaultAnimation(const char *name){
+        defaultAnimation = name;
+    }
+
     void playAnimation(const char *name, float deltaTime, Rectangle dest){
         // new animation
         if (currentAnimation != &animations[name]){
@@ -66,15 +72,15 @@ struct AnimationSheet{
         }
 
         if (currentAnimation->currentSpriteIndex >= currentAnimation->len){
-            currentAnimation->currentSpriteIndex = 0;
             if (!currentAnimation->willLoop){
-
+                currentAnimation = &animations[defaultAnimation];
             }
+            currentAnimation->currentSpriteIndex = 0;
         }
 
         Rectangle src = {
-            (currentAnimation->currentSpriteIndex % nHorizontal) * spriteWidth,
-            (currentAnimation->currentSpriteIndex / nHorizontal) * spriteHeight,
+            ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) % nHorizontal) * spriteWidth,
+            ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) / nHorizontal) * spriteHeight,
             spriteWidth,
             spriteHeight
         };

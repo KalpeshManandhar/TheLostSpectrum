@@ -37,14 +37,16 @@ int main(void){
 
     while (!WindowShouldClose()){
         float deltaTime = GetFrameTime();
-        accumulator += deltaTime;
         
+        testLoop(&testData, deltaTime);
+
+        accumulator += deltaTime;
         // fixed dt for fixed time updates
         const float FIXED_DT = 0.002f;
 
         while(accumulator >= FIXED_DT){
             // update physics and stuff
-
+            testFixedLoop(&testData, deltaTime);
             accumulator -= FIXED_DT;
         }
 
@@ -55,7 +57,7 @@ int main(void){
 
         ClearBackground(background);
 
-        testLoop(&testData, deltaTime);
+        testDisplay(&testData, deltaTime);
         p1.draw();
         p1.movementCheck();
         DrawText("INITIAL CONVERSATION STARTS", static_cast<int>((width/2)-250), static_cast<int>(height/2), 50, WHITE);
