@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+#visual studio builds
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*x64/
+
+#other directories
+*include/
+*lib/
+*bin/
+*obj/
