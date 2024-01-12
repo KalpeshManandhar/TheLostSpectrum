@@ -28,6 +28,7 @@ public:
 	Game(unsigned int wWidth, unsigned int wHeight);
 	~Game();
 
+
 	void Init(); //for loading all the textures or levels
 
 	//game loop

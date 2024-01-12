@@ -2,6 +2,7 @@
 #include <raymath.h>
 
 #include <stdint.h>
+#include "core/camera.h"
 
 #include "tests/tests.h"
 #include "gifAnim/gifAnim.h"
@@ -26,6 +27,7 @@ int main(void){
     InitWindow(width, height, "The Lost Spectrum");
 
     Game TheLostSpectrum(width, height);
+    
 
 
     splashScreen ss("TEAM DOTS PRESENTS", 50, width, height, 3);

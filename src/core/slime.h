@@ -78,21 +78,23 @@ struct Slime: public Entity{
 
     }
 
-    void animate(float deltaTime){
+    void animate(FollowCamera *camera, float deltaTime){
+        Rectangle r = camera->toScreenSpace(sprite);
+
         switch (state){
         case STATE_IDLE:
-            ani.playAnimation("idle", deltaTime, sprite);
+            ani.playAnimation("idle", deltaTime, r);
             break;
         case STATE_MOVE:
-            ani.playAnimation("move", deltaTime, sprite);
+            ani.playAnimation("move", deltaTime, r);
             break;
         case STATE_ATTACK:
-            if (ani.playAnimation("attack", deltaTime, sprite)){
+            if (ani.playAnimation("attack", deltaTime, r)){
                 isAttacking = false;
             }
             break;
         case STATE_HURT:
-            ani.playAnimation("attack", deltaTime, sprite);
+            ani.playAnimation("attack", deltaTime, r);
             break;
         
         default:

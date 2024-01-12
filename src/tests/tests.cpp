@@ -22,12 +22,16 @@ TestData testInit(){
     t.slime1 = Slime(r);
     r.x += 100;
     t.slime2 = Slime(r);
+
+    t.c = FollowCamera(&t.slime1.sprite, 1280,720);
+    t.p = player();
     return t;
 }
 
 
 void testLoop(TestData *t, float deltaTime){
     t->slime1.resolveChanges();
+    t->p.movementCheck();
 
     if (circleCircleCollisionCheck(t->slime1.hurtbox, t->slime2.hurtbox)){
         printf("Overlap");
@@ -38,8 +42,12 @@ void testLoop(TestData *t, float deltaTime){
 }
 
 void testDisplay(TestData *t, float deltaTime){
-    t->slime1.animate(deltaTime);
-    t->slime2.animate(deltaTime);
+    t->c.update();
+
+    Vector2 cameraPos = {t->c.screen.x, t->c.screen.y};
+    t->slime1.animate(cameraPos, deltaTime);
+    t->slime2.animate(cameraPos, deltaTime);
+    t->p.draw(cameraPos);
 }
 
 void testFixedLoop(TestData *t, float deltaTime){
