@@ -1,3 +1,5 @@
+#pragma once
+
 #include <raylib.h>
 class player
 {
@@ -14,9 +16,9 @@ public:
 		if (IsKeyDown(KEY_DOWN)) position.y += 5;
 		if (IsKeyDown(KEY_UP)) position.y -= 5;
 	}
-	void draw()
+	void draw(Vector2 camerapos)
 	{
-		DrawRectangleV(position, size, RED);
+		DrawRectangleV({position.x - camerapos.x, position.y - camerapos.y}, size, RED);
 	}
 
 	void playerInit() {

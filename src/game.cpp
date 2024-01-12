@@ -34,8 +34,8 @@ void Game::Update( float dt)
     
      testLoop(&testData, dt);
      testDisplay(&testData, dt);
-    Player.draw();
-    Player.movementCheck();
+     //Player.draw({0,0});
+    //Player.movementCheck();
 
     DrawText("INITIAL CONVERSATION STARTS", static_cast<int>((Width / 2) - 250), static_cast<int>(Height / 2), 50, WHITE);
 

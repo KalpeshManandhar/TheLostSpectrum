@@ -10,7 +10,6 @@
 struct Entity{
     Rectangle sprite;
     Vector2 velocity;
-    Vector2 acceleration;
 
     // the hitbox of attacks
     Circle hitbox;
