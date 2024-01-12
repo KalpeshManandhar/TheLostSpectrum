@@ -9,12 +9,12 @@ struct TestData{
     Slime slime1;
     Slime slime2;
     player p;
-    // FollowCamera c;
-    Camera2D c;
+    FollowCamera c;
+    // Camera2D c;
     Texture2D background; 
     Rectangle backrect; 
 };
-TestData testInit();
+TestData* testInit();
 void testLoop(TestData *t, float deltaTime);
 void testDisplay(TestData *t, float deltaTime);
 void testFixedLoop(TestData *t, float deltaTime);

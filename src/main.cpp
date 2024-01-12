@@ -53,7 +53,7 @@ int main(void){
        
         float deltaTime = GetFrameTime();
         
-        testLoop(&testData, deltaTime);
+        testLoop(testData, deltaTime);
 
         accumulator += deltaTime;
         // fixed dt for fixed time updates
@@ -61,7 +61,7 @@ int main(void){
 
         while(accumulator >= FIXED_DT){
             //update physics and stuff
-            testFixedLoop(&testData, deltaTime);
+            testFixedLoop(testData, deltaTime);
             accumulator -= FIXED_DT;
         }
 
@@ -72,7 +72,7 @@ int main(void){
 
         ClearBackground(background);
 
-        testDisplay(&testData, deltaTime);
+        testDisplay(testData, deltaTime);
 
         TheLostSpectrum.ProcessInput(deltaTime);
         TheLostSpectrum.Update(deltaTime);

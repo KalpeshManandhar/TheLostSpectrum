@@ -78,14 +78,8 @@ struct Slime: public Entity{
 
     }
 
-    void animate(Camera2D *camera, float deltaTime){
-        Vector2 screenSpace = GetWorldToScreen2D({sprite.x, sprite.y}, *camera);
-
-        Rectangle r = {
-            screenSpace.x, screenSpace.y,
-            sprite.width, sprite.height
-        };
-
+    void animate(FollowCamera *camera, float deltaTime){
+        Rectangle r = camera->toScreenSpace(sprite);
 
         switch (state){
         case STATE_IDLE:
