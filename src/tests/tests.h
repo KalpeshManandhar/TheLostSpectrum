@@ -6,6 +6,7 @@
 struct TestData{
     Slime slime1;
     Slime slime2;
+    Slime player;
 };
 TestData testInit();
 void testLoop(TestData *t, float deltaTime);

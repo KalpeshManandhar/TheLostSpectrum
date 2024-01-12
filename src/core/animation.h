@@ -79,7 +79,7 @@ struct AnimationSheet{
             currentAnimation->currentSpriteIndex = 0;
             isFinished = true;
         }
-
+   
         Rectangle src = {
             ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) % nHorizontal) * spriteWidth,
             ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) / nHorizontal) * spriteHeight,

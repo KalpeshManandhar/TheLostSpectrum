@@ -5,6 +5,7 @@
 
 #include <raylib.h>
 #include <vector>
+#include "tests/tests.h"
 
 enum GameState {
 	GAME_ACTIVE,
@@ -18,7 +19,8 @@ enum GameState {
 class Game{
 public:
 	GameState State;
-	
+	TestData testData;
+
 	unsigned int Width, Height;
 
 	//std::vector<GameLevel> Levels;
@@ -40,6 +42,7 @@ public:
 	void ResetLevel();
 	void ResetPlayer();
 
+	void fixedLoop(float dt);
 };
 
 #endif // !1

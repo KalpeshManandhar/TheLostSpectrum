@@ -17,7 +17,6 @@ struct Slime: public Entity{
 
     Slime(){}
     Slime(Rectangle sprite): Entity (sprite){
-        loadAnimations();
 
         state = States::STATE_IDLE;
         direction = 1;
@@ -37,6 +36,17 @@ struct Slime: public Entity{
         ani.setDefaultAnimation("idle");
 
         ani.setFPS(6);
+    }
+
+    void loadPlayerAnimatios() {
+        ani = AnimationSheet("./assets/player.png", 50, 37);
+        ani.addAnimation("idle", 0, 4, true);
+        ani.addAnimation("idle2", 38, 4, true);
+        ani.addAnimation("move", 9, 6, true);
+        ani.addAnimation("attack", 39,11, false);
+        ani.setDefaultAnimation("idle");
+
+        ani.setFPS(7);
     }
 
     void move(){

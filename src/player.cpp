@@ -1,6 +1,7 @@
 #include <raylib.h>
 class player
 {
+
 	Vector2 position = { 120,120 };
 	float speed=0;
 	Vector2 size = { 16,16 };
@@ -17,5 +18,11 @@ public:
 	{
 		DrawRectangleV(position, size, RED);
 	}
-	
+
+	void playerInit() {
+
+	}
+	void playerLoop() {
+
+	}
 };

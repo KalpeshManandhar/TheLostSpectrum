@@ -4,7 +4,8 @@
 #include "player.cpp"
 #include "tests/tests.h"
 
-player p1;
+player Player;
+player mushroom;
 
 
 Game::Game(unsigned int width, unsigned int height):
@@ -19,7 +20,7 @@ Game::~Game() {
 
 
 void Game::Init() {
-    
+    testData = testInit();
 }
 
 
@@ -31,10 +32,10 @@ void Game::ProcessInput(float dt) {
 void Game::Update( float dt)
 {
     
-    // testLoop(&testData, dt);
-    // testDisplay(&testData, dt);
-    p1.draw();
-    p1.movementCheck();
+     testLoop(&testData, dt);
+     testDisplay(&testData, dt);
+    Player.draw();
+    Player.movementCheck();
 
     DrawText("INITIAL CONVERSATION STARTS", static_cast<int>((Width / 2) - 250), static_cast<int>(Height / 2), 50, WHITE);
 
@@ -51,5 +52,10 @@ void Game::ResetLevel()
 
 void Game::ResetPlayer()
 {
+}
+
+void Game::fixedLoop(float dt)
+{
+    testFixedLoop(&testData, dt);
 }
 
