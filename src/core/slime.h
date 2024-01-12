@@ -20,6 +20,10 @@ struct Slime: public Entity{
         loadAnimations();
 
         state = States::STATE_IDLE;
+        direction = 1;
+
+        
+
         
     }
 
@@ -51,13 +55,27 @@ struct Slime: public Entity{
 
     }
 
+    void attack(){
+        isAttacking = true;
+    }
+    
+    void takeDamage(){
+
+    }
+
     void resolveChanges(){
         state = States::STATE_IDLE;
+        if (isAttacking || IsKeyDown(KEY_E)){
+            attack();
+            state = States::STATE_ATTACK;
+            
+        }
 
-        if (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)){
+        else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)){
             move();
             state = States::STATE_MOVE;
         }
+
     }
 
     void animate(float deltaTime){
@@ -66,8 +84,15 @@ struct Slime: public Entity{
             ani.playAnimation("idle", deltaTime, sprite);
             break;
         case STATE_MOVE:
-            printf("Move");
             ani.playAnimation("move", deltaTime, sprite);
+            break;
+        case STATE_ATTACK:
+            if (ani.playAnimation("attack", deltaTime, sprite)){
+                isAttacking = false;
+            }
+            break;
+        case STATE_HURT:
+            ani.playAnimation("attack", deltaTime, sprite);
             break;
         
         default:
