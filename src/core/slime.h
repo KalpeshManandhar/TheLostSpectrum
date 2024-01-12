@@ -8,7 +8,7 @@
 struct Slime: public Entity{
     AnimationSheet ani;
 
-    enum States{
+    enum States {
         STATE_IDLE,
         STATE_MOVE,
         STATE_ATTACK,
@@ -16,7 +16,6 @@ struct Slime: public Entity{
         STATE_DIE,
         STATE_REVERSE
     };
-
 
     Slime(){}
     Slime(Rectangle sprite): Entity (sprite){

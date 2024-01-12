@@ -17,7 +17,9 @@ AnimationSheet slimeAnimate(){
 
 
 TestData* testInit(){
-    TestData *t = new TestData;
+    TestData* t;
+    t= new TestData;
+
     Rectangle r = {
         0,0,
         200,150
@@ -41,9 +43,13 @@ TestData* testInit(){
     //t->boss = Slime(b);
     //t->player.loadBossAnimation();
 
+
+    //t->p = player();
+    //t->p.playerInit();
+
     r.x += 100;
 
-    t->c = FollowCamera(&t->slime1.sprite, 1280,720);
+    t->c = FollowCamera(&t->slime1.sprite, 400,400);
     // t->c.target = {
     //     (t->slime1.sprite.x + t->slime1.sprite.width * 0.5f),
     //     (t->slime1.sprite.y + t->slime1.sprite.height * 0.5f)
@@ -53,11 +59,6 @@ TestData* testInit(){
     // t->c.offset = {1280*0.5,720*0.5};
     // t->c.zoom = 1.0f;
     
-    t->p = player();
-
-    Image i = LoadImage("./assets/dungeon.png");
-    t->background = LoadTextureFromImage(i);
-    UnloadImage(i);
 
     t->backrect = {-300,-300, 2400,2400};
     return t;
@@ -66,8 +67,8 @@ TestData* testInit(){
 
 void testLoop(TestData *t, float deltaTime){
     //t->slime1.resolveChanges();
-    t->p.movementCheck();/*
-    t->boss.resolveChanges();*/
+    //t->p.resolveChanges();/*
+    //t->boss.resolveChanges();*/
     t->player.resolveChanges();
 
     if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
@@ -87,6 +88,7 @@ void testDisplay(TestData *t, float deltaTime){
     t->c.update();
 
     t->slime1.animate(&t->c, deltaTime);
+    //t->p.animate(&t->c, deltaTime);
     t->player.animate(&t->c, deltaTime);
 
     DialogueBox db;
@@ -96,6 +98,8 @@ void testDisplay(TestData *t, float deltaTime){
 
 void testFixedLoop(TestData *t, float deltaTime){
     t->slime1.update(deltaTime);
+   // t->p.update(deltaTime);
+
     /*t->slime2.update(deltaTime);*/
     t->player.update(deltaTime);
     //t->boss.update(deltaTime);
