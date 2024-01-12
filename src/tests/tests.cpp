@@ -2,6 +2,7 @@
 #include "../core/animation.h"
 #include "../core/slime.h"
 #include "../core/collision.h"
+#include "../core/dialogue.h"
 
 
 
@@ -86,11 +87,11 @@ void testDisplay(TestData *t, float deltaTime){
     t->c.update();
 
     t->slime1.animate(&t->c, deltaTime);
-    //t->slime2.animate(&t->c, deltaTime);
     t->player.animate(&t->c, deltaTime);
 
-    //t->boss.animate(&t->c, deltaTime);
-    // t->p.draw(t->c.offset);
+    DialogueBox db;
+
+    db.renderDialogue("I am mad scientist. It's so cool. Sonuvabitch", deltaTime);
 }
 
 void testFixedLoop(TestData *t, float deltaTime){
