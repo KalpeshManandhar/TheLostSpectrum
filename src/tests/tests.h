@@ -14,6 +14,7 @@ struct TestData{
     Texture2D background; 
     Rectangle backrect; 
     Slime player;
+    Slime boss;
 };
 TestData* testInit();
 void testLoop(TestData *t, float deltaTime);

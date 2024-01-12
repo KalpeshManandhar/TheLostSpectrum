@@ -57,7 +57,7 @@ struct AnimationSheet{
         defaultAnimation = name;
     }
 
-    bool playAnimation(const char *name, float deltaTime, Rectangle dest){
+    bool playAnimation(const char *name, float deltaTime, Rectangle dest, int direction = 1){
         bool isFinished = false;
         // new animation
         if (currentAnimation != &animations[name]){
@@ -79,18 +79,35 @@ struct AnimationSheet{
             currentAnimation->currentSpriteIndex = 0;
             isFinished = true;
         }
-   
-        Rectangle src = {
-            ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) % nHorizontal) * spriteWidth,
-            ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) / nHorizontal) * spriteHeight,
-            spriteWidth,
-            spriteHeight
-        };
 
-        DrawTexturePro(texSpritesheet, 
-                        src, dest, 
-                        {0,0}, 0, WHITE
-                    );
+        if (direction == 1) {
+            Rectangle src = {
+                ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) % nHorizontal) * spriteWidth,
+                ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) / nHorizontal) * spriteHeight,
+                spriteWidth,
+                spriteHeight
+            };
+
+            DrawTexturePro(texSpritesheet,
+                src, dest,
+                { 0,0 }, 0, WHITE
+            );
+        }
+        else {
+            Rectangle src = {
+                ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) % nHorizontal) * spriteWidth,
+                ((currentAnimation->currentSpriteIndex + currentAnimation->spriteStart) / nHorizontal) * spriteHeight,
+                -spriteWidth,
+                spriteHeight
+            };
+
+            DrawTexturePro(texSpritesheet,
+                src, dest,
+                { 0,0 }, 0, WHITE
+            );
+        }
+
+
         return isFinished;
     }
 };

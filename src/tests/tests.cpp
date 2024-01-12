@@ -25,15 +25,22 @@ TestData* testInit(){
         200,200,
         149,100
     };
+    Rectangle b = {
+    100,100,
+    97,100
+    };
     // t.slime = slimeAnimate();
-    t.slime1 = Slime(r);
-    t.slime1.loadAnimations();
+    t->slime1 = Slime(r);
+    t->slime1.loadAnimations();
 
-    t.player = Slime(p);
-    t.player.loadPlayerAnimatios();
+    t->player = Slime(p);
+    t->player.loadPlayerAnimatios();
+
+
+    //t->boss = Slime(b);
+    //t->player.loadBossAnimation();
 
     r.x += 100;
-    t->slime2 = Slime(r);
 
     t->c = FollowCamera(&t->slime1.sprite, 1280,720);
     // t->c.target = {
@@ -57,28 +64,32 @@ TestData* testInit(){
 
 
 void testLoop(TestData *t, float deltaTime){
-    t->slime1.resolveChanges();
-    t->p.movementCheck();
-
+    //t->slime1.resolveChanges();
+    t->p.movementCheck();/*
+    t->boss.resolveChanges();*/
     t->player.resolveChanges();
-    //if (circleCircleCollisionCheck(t->slime1.hurtbox, t->slime2.hurtbox)){
-    //    printf("Overlap");
-    //    Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->slime2.hurtbox);
-    //    t->slime1.updatePos(r);
-    //}
+
     if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
         printf("Overlap");
         Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->player.hurtbox);
         t->slime1.updatePos(r);
     }
+
+    //if (circleCircleCollisionCheck(t->boss.hurtbox, t->player.hurtbox)){
+    //    printf("Overlap");
+    //    Vector2 p = resolveCircleCollision(t->boss.hurtbox, t->player.hurtbox);
+    //    t->player.updatePos(p);
+    //}
 }
 
 void testDisplay(TestData *t, float deltaTime){
     t->c.update();
 
     t->slime1.animate(&t->c, deltaTime);
-    t->slime2.animate(&t->c, deltaTime);
+    //t->slime2.animate(&t->c, deltaTime);
     t->player.animate(&t->c, deltaTime);
+
+    //t->boss.animate(&t->c, deltaTime);
     // t->p.draw(t->c.offset);
 }
 
@@ -86,5 +97,6 @@ void testFixedLoop(TestData *t, float deltaTime){
     t->slime1.update(deltaTime);
     /*t->slime2.update(deltaTime);*/
     t->player.update(deltaTime);
+    //t->boss.update(deltaTime);
 }
 

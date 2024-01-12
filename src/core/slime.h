@@ -13,7 +13,8 @@ struct Slime: public Entity{
         STATE_MOVE,
         STATE_ATTACK,
         STATE_HURT,
-        STATE_DIE
+        STATE_DIE,
+        STATE_REVERSE
     };
 
 
@@ -82,9 +83,14 @@ struct Slime: public Entity{
             
         }
 
-        else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)){
+        else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)){
             move();
             state = States::STATE_MOVE;
+        }
+
+        else if (IsKeyDown(KEY_A)) {
+            move();
+            state = States::STATE_REVERSE;
         }
 
     }
@@ -98,6 +104,9 @@ struct Slime: public Entity{
             break;
         case STATE_MOVE:
             ani.playAnimation("move", deltaTime, r);
+            break;
+        case STATE_REVERSE:
+            ani.playAnimation("move", deltaTime, r, 0);
             break;
         case STATE_ATTACK:
             if (ani.playAnimation("attack", deltaTime, r)){

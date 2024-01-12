@@ -32,8 +32,8 @@ void Game::ProcessInput(float dt) {
 void Game::Update( float dt)
 {
     
-     testLoop(&testData, dt);
-     testDisplay(&testData, dt);
+     testLoop(testData, dt);
+     testDisplay(testData, dt);
      //Player.draw({0,0});
     //Player.movementCheck();
 
@@ -56,6 +56,6 @@ void Game::ResetPlayer()
 
 void Game::fixedLoop(float dt)
 {
-    testFixedLoop(&testData, dt);
+    testFixedLoop(testData, dt);
 }
 

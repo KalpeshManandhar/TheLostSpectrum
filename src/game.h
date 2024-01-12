@@ -19,7 +19,7 @@ enum GameState {
 class Game{
 public:
 	GameState State;
-	TestData testData;
+	TestData* testData;
 
 	unsigned int Width, Height;
 
