@@ -1,6 +1,7 @@
 #pragma once
 
 #include "entity.h"
+#include "camera.h"
 #include "animation.h"
 
 struct Slime: public Entity{
@@ -17,14 +18,12 @@ struct Slime: public Entity{
 
     Slime(){}
     Slime(Rectangle sprite): Entity (sprite){
-        loadAnimations();
+        
 
         state = States::STATE_IDLE;
         direction = 1;
+        loadAnimations();
 
-        
-
-        
     }
 
     void loadAnimations(){
@@ -78,8 +77,14 @@ struct Slime: public Entity{
 
     }
 
-    void animate(FollowCamera *camera, float deltaTime){
-        Rectangle r = camera->toScreenSpace(sprite);
+    void animate(Camera2D *camera, float deltaTime){
+        Vector2 screenSpace = GetWorldToScreen2D({sprite.x, sprite.y}, *camera);
+
+        Rectangle r = {
+            screenSpace.x, screenSpace.y,
+            sprite.width, sprite.height
+        };
+
 
         switch (state){
         case STATE_IDLE:

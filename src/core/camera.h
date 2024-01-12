@@ -23,7 +23,6 @@ struct FollowCamera{
     void update(){
         screen.x += ((follow->x + follow->width * 0.5) - (screen.x + screen.width * 0.5f));
         screen.y += ((follow->y + follow->height * 0.5) - (screen.y + screen.height * 0.5f));
-        printf("%f %f\n", screen.x, screen.y);
     }
 
     Rectangle toScreenSpace(Rectangle worldSpace){
