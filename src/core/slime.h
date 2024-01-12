@@ -3,6 +3,7 @@
 #include "entity.h"
 #include "camera.h"
 #include "animation.h"
+#include "camera.h"
 
 struct Slime: public Entity{
     AnimationSheet ani;
