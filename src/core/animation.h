@@ -57,7 +57,8 @@ struct AnimationSheet{
         defaultAnimation = name;
     }
 
-    void playAnimation(const char *name, float deltaTime, Rectangle dest){
+    bool playAnimation(const char *name, float deltaTime, Rectangle dest){
+        bool isFinished = false;
         // new animation
         if (currentAnimation != &animations[name]){
             currentAnimation = &animations[name];
@@ -76,6 +77,7 @@ struct AnimationSheet{
                 currentAnimation = &animations[defaultAnimation];
             }
             currentAnimation->currentSpriteIndex = 0;
+            isFinished = true;
         }
 
         Rectangle src = {
@@ -89,6 +91,7 @@ struct AnimationSheet{
                         src, dest, 
                         {0,0}, 0, WHITE
                     );
+        return isFinished;
     }
 };
 

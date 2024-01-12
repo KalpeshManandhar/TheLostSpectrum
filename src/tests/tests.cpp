@@ -1,6 +1,7 @@
 #include "tests.h"
 #include "../core/animation.h"
 #include "../core/slime.h"
+#include "../core/collision.h"
 
 
 AnimationSheet slimeAnimate(){
@@ -18,20 +19,31 @@ TestData testInit(){
         200,150
     };
     // t.slime = slimeAnimate();
-    t.slime = Slime(r);
+    t.slime1 = Slime(r);
+    r.x += 100;
+    t.slime2 = Slime(r);
     return t;
 }
 
 
 void testLoop(TestData *t, float deltaTime){
-    t->slime.resolveChanges();
+    t->slime1.resolveChanges();
+
+    if (circleCircleCollisionCheck(t->slime1.hurtbox, t->slime2.hurtbox)){
+        printf("Overlap");
+        Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->slime2.hurtbox);
+        t->slime1.updatePos(r);
+    }
+
 }
 
 void testDisplay(TestData *t, float deltaTime){
-    t->slime.animate(deltaTime);
+    t->slime1.animate(deltaTime);
+    t->slime2.animate(deltaTime);
 }
 
 void testFixedLoop(TestData *t, float deltaTime){
-    t->slime.update(deltaTime);
+    t->slime1.update(deltaTime);
+    t->slime2.update(deltaTime);
 }
 

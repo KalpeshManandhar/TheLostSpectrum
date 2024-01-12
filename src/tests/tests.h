@@ -4,7 +4,8 @@
 #include "../core/slime.h"
 
 struct TestData{
-    Slime slime;
+    Slime slime1;
+    Slime slime2;
 };
 TestData testInit();
 void testLoop(TestData *t, float deltaTime);
