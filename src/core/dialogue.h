@@ -24,10 +24,16 @@ struct DialogueBox{
     const float CHAR_SPACING = 0;
 
 
-    DialogueBox(int windowW, int windowH){
-        dialogueBoxRect = {PADDING, PADDING, windowW - 2 * PADDING, 256 + PADDING};
-        characterRect = {PADDING, PADDING, 256,256};
-        dialogueRect = {256 + PADDING, PADDING, windowW - 4*PADDING - 256, 256 + PADDING};
+    DialogueBox(int windowW = 1280, int windowH = 720){
+        dialogueBoxRect = {PADDING, PADDING, windowW - 2 * PADDING, windowH * 0.3f};
+        characterRect = {
+            dialogueBoxRect.x + PADDING, dialogueBoxRect.y + dialogueBoxRect.height *0.1f, 
+            dialogueBoxRect.height *0.8f, dialogueBoxRect.height *0.8f
+        };
+        dialogueRect = {
+            characterRect.x + characterRect.width + 2*PADDING, characterRect.y + PADDING, 
+            dialogueBoxRect.width - characterRect.width - 2 * PADDING, dialogueBoxRect.height - 2 * PADDING
+        };
     }
 
     int getNextWordLength(const char *text){
