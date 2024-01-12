@@ -45,18 +45,21 @@ int main(void){
     bool initialAnim = true;
     float accumulator = 0;
 
+    auto testData = testInit();
+
     while (!WindowShouldClose()){
        
         float deltaTime = GetFrameTime();
         
+        testLoop(&testData, deltaTime);
 
         accumulator += deltaTime;
         // fixed dt for fixed time updates
         const float FIXED_DT = 0.002f;
 
         while(accumulator >= FIXED_DT){
-             //update physics and stuff
-           // testFixedLoop(&testData, deltaTime);
+            //update physics and stuff
+            testFixedLoop(&testData, deltaTime);
             accumulator -= FIXED_DT;
         }
 
@@ -66,6 +69,8 @@ int main(void){
         };
 
         ClearBackground(background);
+
+        testDisplay(&testData, deltaTime);
 
         TheLostSpectrum.ProcessInput(deltaTime);
         TheLostSpectrum.Update(deltaTime);

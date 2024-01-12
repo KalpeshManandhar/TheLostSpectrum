@@ -30,9 +30,9 @@ void Game::ProcessInput(float dt) {
 
 void Game::Update( float dt)
 {
-    auto testData = testInit();
-    testLoop(&testData, dt);
-    testDisplay(&testData, dt);
+    
+    // testLoop(&testData, dt);
+    // testDisplay(&testData, dt);
     p1.draw();
     p1.movementCheck();
 
