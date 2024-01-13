@@ -64,6 +64,9 @@ public:
 	void ResetPlayer();
 
 	void fixedLoop(float dt);
+
+
+	bool slimeHit;
 };
 
 #endif // !1

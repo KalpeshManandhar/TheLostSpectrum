@@ -8,6 +8,7 @@
 struct Slime: public Entity{
     AnimationSheet ani;
 
+    bool isActive;
     enum States {
         SLIME_IDLE,
         SLIME_MOVE,
@@ -22,9 +23,7 @@ struct Slime: public Entity{
 
         state = States::SLIME_IDLE;
         direction = 1;
-
-        
-
+        isActive = true;
     }
 
     void loadAnimations(){
@@ -68,28 +67,37 @@ struct Slime: public Entity{
         state = States::SLIME_IDLE;
     }
 
+    void playDead(FollowCamera* c, float deltaTime) {
+        Rectangle r = c->toScreenSpace(sprite);
+        ani.playAnimation("die", deltaTime, r, direction);
+    }
+
     void animate(FollowCamera *c, float deltaTime){
         Rectangle r = c->toScreenSpace(sprite);
 
+        if(isActive) {
+            switch (state) {
+            case SLIME_IDLE:
+                ani.playAnimation("idle", deltaTime, r, direction);
+                break;
+            case SLIME_MOVE:
+                ani.playAnimation("move", deltaTime, r, direction);
+                break;
+            case SLIME_ATTACK:
+                if (ani.playAnimation("attack", deltaTime, r, direction)) {
+                    isAttacking = false;
+                }
+                break;
+            case SLIME_DIE:
+                ani.playAnimation("die", deltaTime, r, direction);
+                break;
+            case SLIME_HURT:
+                ani.playAnimation("attack", deltaTime, r, direction);
+                break;
 
-        switch (state){
-        case SLIME_IDLE:
-            ani.playAnimation("idle", deltaTime, r, direction);
-            break;
-        case SLIME_MOVE:
-            ani.playAnimation("move", deltaTime, r, direction);
-            break;
-        case SLIME_ATTACK:
-            if (ani.playAnimation("attack", deltaTime, r, direction)){
-                isAttacking = false;
+            default:
+                break;
             }
-            break;
-        case SLIME_HURT:
-            ani.playAnimation("attack", deltaTime, r, direction);
-            break;
-        
-        default:
-            break;
         }
     }
 
@@ -171,7 +179,6 @@ struct Player : public Entity {
         if (isAttacking || IsKeyDown(KEY_E)) {
             attack();
             state = States::PLAYER_ATTACK;
-
         }
 
         else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D) || IsKeyDown(KEY_A)) {
@@ -204,6 +211,10 @@ struct Player : public Entity {
             break;
         }
     }
+};
+
+struct compass : public Entity {
+
 };
 
 struct Wizard : public Entity {
