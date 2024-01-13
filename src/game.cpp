@@ -239,7 +239,7 @@ bool Game::checkInteractions(){
 // }
 
 void Game::loadLevel(){
-    level = new LevelMap("./assets/levelmaps/levelA", "./assets/levelmaps/tilemap.png", {128,128});
+    level = new LevelMap("./assets/levelmaps/levelA", "./assets/levelmaps/levelA/tilemap.png", {128,128});
     Vector2 toNewPos = {
         level->playerSpawn.x - testData->player.sprite.x,
         (level->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
