@@ -9,6 +9,7 @@
 class inputBox
 {
 	bool onceTrue = false;
+	bool isWrong = false;
 	int screenWidth = GetScreenWidth();
 	int screenHeight = GetScreenHeight();	
 
@@ -48,6 +49,9 @@ public:
 			letterCount--;
 			if (letterCount < 0) letterCount = 0;
 			answer[letterCount] = '\0';
+			isWrong = false;
+			
+
 		}
 
 		else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
@@ -64,6 +68,8 @@ public:
 		DrawText(answer, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
 
 		DrawText(TextFormat("INPUT: %i/%i", letterCount, 10), 315, 250, 20, DARKGRAY);
+		if(isWrong)
+			DrawText("Wrong! Please try again", textBox.x - 100, textBox.y + 100, 40, RED);
 
 		if (mouseOnText)
 		{
@@ -79,18 +85,15 @@ public:
 			std::cout << answer << '\n';
 			if (strcmp(answer, "rainbow") == 0)
 			{
+				isWrong = false;
 				onceTrue = true;
 				return true;
 			}
 				
 			else
 			{
-				//while (1)
-				{
-					DrawText("Wrong! Please try again", textBox.x - 100, textBox.y + 100, 40, RED);
-					if (IsKeyPressed(KEY_R)) 0;
-						//break;
-				}
+				isWrong = true;
+				
 				return false;
 			}
 				
@@ -181,7 +184,7 @@ public:
 			bool check = box.drawInputBox();
 			if (check)
 			{
-				dialogueBoxRect = { windowW * 0.3f, windowH * 0.3f - PADDING, windowW - 4 * PADDING, windowH * 0.3f };
+				dialogueBoxRect = { PADDING*4, windowH * 0.35f - PADDING, windowW - 6 * PADDING, windowH * 0.1f };
 				DrawRectangleRec(dialogueBoxRect, Color{ 64,64,64,128 });
 				DrawText(TextFormat("CONGRATULATIONS!!!YOU HAVE RESTORED THE COLORS"), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + PADDING, 40, WHITE);
 				if (IsKeyPressed(KEY_B))
