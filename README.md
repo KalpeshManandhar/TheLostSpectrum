@@ -1,11 +1,20 @@
 # TheLostSpectrum
-A game about restoring colors back to Chromaterra.
+<div align ="center">
+Demons have stolen the colors of land of Chrometerra!.
 
-Asset credits:
-Slime: [https://rvros.itch.io/pixel-art-animated-slime] 
-Staticboat: [https://www.pinterest.com/pin/405394403971243041/] 
-boat: [https://www.pinterest.com/pin/726135139937622101/] 
-conversationBackground: [https://depositphotos.com/vector/landscape-for-game-background-for-game-black-and-white-background-144826667.html]
-blackNinja: [https://dribbble.com/shots/1681952-Shadow-Ninja-Game-Character-Sprite-Sheets]
-https://luizmelo.itch.io/evil-wizard-2?download : evilwizard
-monster creatures : https://luizmelo.itch.io/monsters-creatures-fantasy/download/eyJleHBpcmVzIjoxNzA1MDQwNzYwLCJpZCI6NTY0Njk1fQ%3d%3d.DU8kcPPALMSXLSjDIHgEQvSCN%2fY%3d 
+The land needs your help to restore its colors back.
+
+Written in modern C++ , **using Raylib**
+
+<div align ="left">
+
+**Made as a game developement project**
+
+
+**Asset credits:**
+
+- <a href ="https://rvros.itch.io/pixel-art-animated-slime">Slime</a>
+- <a href ="https://www.pinterest.com/pin/405394403971243041/">Static boat</a>
+- <a href ="https://www.pinterest.com/pin/726135139937622101/" > Boat </a>
+- <a href ="https://www.pinterest.com/pin/726135139937622101/" > Player  </a>
+- <a href ="https://luizmelo.itch.io/monsters-creatures-fantasy/download/eyJleHBpcmVzIjoxNzA1MDQwNzYwLCJpZCI6NTY0Njk1fQ%3d%3d.DU8kcPPALMSXLSjDIHgEQvSCN%2fY%3d"> Evil wizard</a>
