@@ -6,6 +6,7 @@
 
 struct TestData{
     Slime* slime;
+    Slime bossSlime;
 
     FollowCamera c;
     // Camera2D c;
@@ -15,6 +16,7 @@ struct TestData{
     Wizard wizard;
     NPC npc;
 
+    compass comp;
     int tinySlimeHits;
     ~TestData();
 };
@@ -22,4 +24,4 @@ TestData* testInit();
 void testLoop(TestData *t, float deltaTime);
 void testDisplay(TestData *t, float deltaTime);
 void testFixedLoop(TestData *t, float deltaTime);
-void updateKill(bool hit);
+void displaySlime(TestData* t, float deltaTime);

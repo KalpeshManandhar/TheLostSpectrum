@@ -24,9 +24,11 @@ void Game::Init() {
     loadLevel();
 
     filterShader = LoadShader(0, "./src/shaders/rgb.fs");
-    slimeHit = false;
 
     loadInteractable("./assets/npcs/npc2.txt");
+
+    memset(slimehits, 0, 3 * sizeof(int));
+
     //Image i = LoadImage("./assets/dungeon.png");
     //ImageResize(&i, 1280, 720);
     //testData->background = LoadTextureFromImage(i);
@@ -94,12 +96,12 @@ Rectangle tile;
 
 void Game::Update( float dt)
 {
-    for (auto gs: stateStack){
+    for (auto gs : stateStack) {
+
         switch (gs)
         {
         case GAME_ACTIVE:
             // DrawTexture(testData->background, 0, 0, WHITE);
-
             testData->c.update();
 
 
@@ -109,61 +111,81 @@ void Game::Update( float dt)
             for (auto &i : interactables){
                 i.animate(&testData->c, dt);
             }
+            displaySlime(testData, dt);
+
 
             testData->player.animate(&testData->c, dt);
 
             level->displayOverlay(&testData->c, shardsCollected);
             DrawRectangleLinesEx(tile, 12, WHITE);
 
-
-            if(circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox)) {
-
-                if (testData->player.isAttacking) {
-                    /*slimeHit = true;*/
-                    testData->slime[0].playDead(&testData->c, dt);
-                    testData->slime[0].isActive = false;
-                    std::cout << "slime hit = " <<slimeHit<<"\n";
+            if (circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox))
+            {
+                const double s0time = GetTime();
+                if (testData->player.isAttacking && testData->slime[0].isActive) 
+                {
+                    testData->slime[0].state = testData->slime[0].SLIME_DIE;
                 }
             }
-            if (circleCircleCollisionCheck(testData->slime[1].hurtbox, testData->player.hurtbox)) {
+            if (circleCircleCollisionCheck(testData->slime[1].hurtbox, testData->player.hurtbox)) 
+            {
 
-                if (testData->player.isAttacking) {
-                    /*slimeHit = true;*/
-                    testData->slime[1].playDead(&testData->c, dt);
-                    testData->slime[1].isActive = false;
-                    std::cout << "slime hit = " << slimeHit << "\n";
+                if (testData->player.isAttacking && testData->slime[1].isActive) 
+                {
+                    testData->slime[1].state = testData->slime[1].SLIME_DIE;
                 }
             }
-            if (circleCircleCollisionCheck(testData->slime[2].hurtbox, testData->player.hurtbox)) {
+            if (circleCircleCollisionCheck(testData->slime[2].hurtbox, testData->player.hurtbox))
+            {
 
-                if (testData->player.isAttacking) {
-                    /*slimeHit = true;*/
-                    testData->slime[2].playDead(&testData->c, dt);
-                    testData->slime[2].isActive = false;
-                    std::cout << "slime hit = " << slimeHit << "\n";
+                if (testData->player.isAttacking && testData->slime[2].isActive) 
+                {
+                    testData->slime[2].state = testData->slime[2].SLIME_DIE;
                 }
             }
-            break;
+
+            //testData->bossSlime.attackTimer -= GetFrameTime();
+            //if (testData->bossSlime.attackTimer <= 0.f) {
+            //    testData->bossSlime.attack();
+            //}
+            if (circleCircleCollisionCheck(testData->slime[3].hurtbox, testData->player.hurtbox))
+            {
+                if (testData->player.isAttacking) {
+                    if ((testData->slime[3].damageCount < 5)) {
+                        testData->slime[3].takeDamage(&testData->c, dt);
+                        std::cout << "damage count : " << testData->slime[3].damageCount << "\n";
+                    }
+                    else if ((testData->slime[3].damageCount >=5) && testData->slime[3].isActive) {
+
+                    testData->slime[3].state = testData->slime[3].SLIME_DIE;
+                    testData->slime[3].damageCount = 0;
+                }
+                }
+            }
+
         
+
+            break;
+
         case GAME_DIALOGUE:
             db.show(dt);
             break;
         case GAME_RIDDLE:
             r.riddleBox();
             break;
-        
+
         default:
             break;
         }
     }
-
-    
+}
+ 
     //Player.draw({0,0});
     //Player.movementCheck();
 
     //DrawText("INITIAL CONVERSATION STARTS", static_cast<int>((Width / 2) - 250), static_cast<int>(Height / 2), 50, WHITE);
     
-}
+
 
 void Game::DoCollitions() {
 
@@ -253,6 +275,36 @@ void Game::loadLevel(){
         (level->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
     };
     testData->player.updatePos(toNewPos);
+
+    Vector2 npcNewPos = {
+         level->npcSpawn.x - testData->npc.sprite.x,
+        (level->npcSpawn.y - testData->npc.sprite.y) / ZY_FACTOR,
+    };
+    testData->npc.updatePos(npcNewPos);
+
+    Vector2 slime0Pos = {
+        level->playerSpawn.x + 1000 - testData->slime[0].sprite.x,
+        (level->playerSpawn.y + 200 - testData->slime[0].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[0].updatePos(slime0Pos);
+
+    Vector2 slime1Pos = {
+    level->playerSpawn.x + 2000 - testData->slime[1].sprite.x,
+    (level->playerSpawn.y - 200 - testData->slime[1].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[1].updatePos(slime1Pos);
+
+    Vector2 slime2Pos = {
+    level->playerSpawn.x + 3000 - testData->slime[2].sprite.x,
+    (level->playerSpawn.y - 500 - testData->slime[2].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[2].updatePos(slime2Pos);
+
+    Vector2 bossSlimePos = {
+    level->playerSpawn.x + 4000 - testData->slime[3].sprite.x,
+    (level->playerSpawn.y - 600 - testData->slime[3].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[3].updatePos(bossSlimePos);
 }
 
 void Game::loadInteractable(const char *file){

@@ -8,7 +8,9 @@
 struct Slime: public Entity{
     AnimationSheet ani;
 
-    bool isActive;
+    float attackCooldown;
+    float attackTimer;
+
     enum States {
         SLIME_IDLE,
         SLIME_MOVE,
@@ -21,9 +23,10 @@ struct Slime: public Entity{
     Slime(){}
     Slime(Rectangle sprite): Entity (sprite){
 
-        state = States::SLIME_IDLE;
-        direction = 1;
-        isActive = true;
+            state = States::SLIME_IDLE;
+            direction = 1;
+            attackCooldown = 5.0f;
+            attackTimer = 0.0f;
     }
 
     void loadAnimations(){
@@ -59,8 +62,10 @@ struct Slime: public Entity{
         isAttacking = true;
     }
     
-    void takeDamage(){
-
+    void takeDamage(FollowCamera* c, float deltaTime){
+        Rectangle r = c->toScreenSpace(sprite);
+        ani.addAnimation("hurt", 13, 4, false);
+        damageCount++;
     }
 
     void resolveChanges(){
@@ -87,9 +92,11 @@ struct Slime: public Entity{
                 if (ani.playAnimation("attack", deltaTime, r, direction)) {
                     isAttacking = false;
                 }
+                attackTimer = attackCooldown;
                 break;
             case SLIME_DIE:
-                ani.playAnimation("die", deltaTime, r, direction);
+                if(ani.playAnimation("die", deltaTime, r, direction))
+                  isActive = false;
                 break;
             case SLIME_HURT:
                 ani.playAnimation("attack", deltaTime, r, direction);
@@ -214,7 +221,35 @@ struct Player : public Entity {
 };
 
 struct compass : public Entity {
+    AnimationSheet anim;
 
+    enum States {
+        COMPASS_IDLE,
+    };
+
+    compass() {}
+    compass(Rectangle sprite) : Entity(sprite) {
+
+        state = States::COMPASS_IDLE;
+        direction = 1;
+
+
+
+    }
+
+    void loadCompass() {
+        anim = AnimationSheet("./assets/compassbg.png", 67, 68);
+        /*anim.addAnimation("idle", 0, 8, true);*/
+        anim.addAnimation("idle", 0,54 , true);
+        anim.setDefaultAnimation("idle");
+
+        anim.setFPS(5);
+    }
+    void animate(float deltaTime) {
+        Rectangle r = { 0,0,150, 150 };
+
+        anim.playAnimation("idle", deltaTime, r, direction);
+    }
 };
 
 struct Wizard : public Entity {
@@ -343,3 +378,4 @@ struct NPC : public Entity {
         anim.playAnimation("idle", deltaTime, r, direction);
     }
 };
+
