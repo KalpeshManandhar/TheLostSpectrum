@@ -9,8 +9,7 @@ Written in modern C++ , **using Raylib**
 <div align ="left">
 
 **Made as a game developement project**
-
-
+<hr>  
 
 
 ## Table of contents
@@ -22,6 +21,7 @@ Written in modern C++ , **using Raylib**
 - [Art and Animation](#art-and-animation)
 - [Testing](#testing)
 - [Team](#development-team)
+<hr>   
 
 ### Introduction
 *The lost spectrum* is a single player 2D top down adventure game. The game was developed as a project in a game developement competition in two days.
@@ -32,11 +32,13 @@ It aims to include:
 - interactive riddles
 
 **Help the land of Chrometerra regain its vibrant colours now**
+<hr>  
 
 ### Specifications
 - The game is written in C++ with Raylib as graphics library.
 - Full support for both Windows and linux. 
 - Works fine in low spec systems.
+<hr>  
 
 ### Game Overview
 The game is can be enjoyed by all age groups and genders. It will particularly be enjoyable for gamers who like:
@@ -44,6 +46,7 @@ The game is can be enjoyed by all age groups and genders. It will particularly b
 - Narrative driven game
 - Old school 2D games
 - Indie games
+<hr>  
 
 ### Game Design
 The game is set on a land of colors (Chromaterra), which has lost its colors due to damage to its heartstone, i.e. the Chromastone. The protagonist must go on a quest to collect all the stone fragments and restore the balance of colors in the land of Chrometerra.
@@ -52,6 +55,7 @@ The game is set on a land of colors (Chromaterra), which has lost its colors due
 - Use W, A, S, D to move.
 - Use E to strike.
 - Enter the riddle inputs via keyboard and press enter.
+<hr>  
 
 ### Technical architecture
 The game is made using the Concept of Object Oriented Programming in C++. Hence, it contains classes of various aspects needed to make the game, like:
@@ -67,6 +71,7 @@ The game is made using the Concept of Object Oriented Programming in C++. Hence,
 - SplashScreen class => Used for naration and cut scenes in game.
 
 All of these classes interact with each other to make the game alive.
+<hr>  
 
 ### Art and Animation
 The game uses all the free spritesheet and art availabe online. 
@@ -79,12 +84,14 @@ The game uses all the free spritesheet and art availabe online.
 - <a href ="https://www.pinterest.com/pin/726135139937622101/" > Boat </a>
 - <a href ="https://www.pinterest.com/pin/726135139937622101/" > Player  </a>
 - <a href ="https://luizmelo.itch.io/monsters-creatures-fantasy/download/eyJleHBpcmVzIjoxNzA1MDQwNzYwLCJpZCI6NTY0Njk1fQ%3d%3d.DU8kcPPALMSXLSjDIHgEQvSCN%2fY%3d"> Evil wizard</a>
+<hr>  
 
 ### Testing
 The game is still in its developmental phase- so hasn't been rigoursly tested.
+<hr> 
 
 ### Development Team
-- [Mamata]((https://github.com/Mavis021))
+- [Mamata](https://github.com/Mavis021)
 - [Kalpesh](https://github.com/KalpeshManandhar)
 - [Ishwor](https://github.com/optimistic-ish)
 
