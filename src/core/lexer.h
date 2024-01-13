@@ -181,7 +181,7 @@ struct Lexer{
     }
 
     void skipUntil_Inc(char ch){
-        while (data[cursor] == ch){
+        while (data[cursor] != ch){
             assert(cursor < fileSize);
             cursor++;
         }

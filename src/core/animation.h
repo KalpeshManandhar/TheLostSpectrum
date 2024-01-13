@@ -10,6 +10,29 @@ struct Animation{
     bool willLoop;
 };
 
+static const uint32_t MOD_ADLER = 65521;
+
+static uint32_t adler32(unsigned char *data, size_t len) 
+/* 
+    where data is the location of the data in physical memory and 
+    len is the length of the data in bytes 
+*/
+{
+    uint32_t a = 1, b = 0;
+    size_t index;
+    
+    // Process each byte of the data in order
+    for (index = 0; index < len; ++index)
+    {
+        a = (a + data[index]) % MOD_ADLER;
+        b = (b + a) % MOD_ADLER;
+    }
+    
+    return (b << 16) | a;
+}
+
+
+
 struct AnimationSheet{
     Texture2D texSpritesheet;
     int spriteWidth, spriteHeight;
@@ -18,12 +41,13 @@ struct AnimationSheet{
     int fps;
     float frameDelay;
 
-    float accumulator;
-    Animation *currentAnimation;
+    float accumulator = 0;
+    uint32_t currentAnimationHash;
 
-    const char *defaultAnimation;
+    char defaultAnimation[10];
+    uint32_t defaultAnimationHash;
 
-    std::unordered_map<const char*, Animation> animations;
+    std::unordered_map<uint32_t, Animation> animations;
 
     AnimationSheet(){}
     AnimationSheet(const char * filePath, int w, int h){
@@ -45,7 +69,10 @@ struct AnimationSheet{
             start, len,
             willLoop
         };
-        animations.insert_or_assign(name, anim);
+
+        uint32_t hash = adler32((unsigned char *)name, strlen(name));
+
+        animations.insert_or_assign(hash, anim);
     }
 
     void setFPS(int animFPS){
@@ -54,14 +81,19 @@ struct AnimationSheet{
     }
 
     void setDefaultAnimation(const char *name){
-        defaultAnimation = name;
+        strcpy(defaultAnimation, name);
+        defaultAnimationHash = adler32((unsigned char *)name, strlen(name));
     }
 
     bool playAnimation(const char *name, float deltaTime, Rectangle dest, int direction = 1){
         bool isFinished = false;
+        uint32_t hash = adler32((unsigned char *)name, strlen(name));
+
+        Animation* currentAnimation = &animations[currentAnimationHash];
         // new animation
-        if (currentAnimation != &animations[name]){
-            currentAnimation = &animations[name];
+        if (currentAnimation != &animations[hash]){
+            currentAnimation = &animations[hash];
+            currentAnimationHash = hash;
             currentAnimation->currentSpriteIndex = 0;
             accumulator = 0;
         }
@@ -74,7 +106,8 @@ struct AnimationSheet{
 
         if (currentAnimation->currentSpriteIndex >= currentAnimation->len){
             if (!currentAnimation->willLoop){
-                currentAnimation = &animations[defaultAnimation];
+                currentAnimation = &animations[defaultAnimationHash];
+                currentAnimationHash = defaultAnimationHash;
             }
             currentAnimation->currentSpriteIndex = 0;
             isFinished = true;

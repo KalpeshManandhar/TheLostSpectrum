@@ -1,0 +1,7 @@
+15,50,100,100
+./assets/npcs/npc2.png
+64,64,
+idle: 0,9,
+"Hello there!
+Konnichiwa!
+Bonjour!"

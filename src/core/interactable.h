@@ -5,23 +5,21 @@
 
 struct Interactable{
     Rectangle spriteRect;
-    Texture2D sprite;
+    AnimationSheet anim;
     Circle triggerRange;
 
     DialogueArray dialogues;
 
-    Interactable(const char *filePath){
+    Interactable(const char *spritePath, int w, int h){
+        anim = AnimationSheet(spritePath,  w, h);
+
+    }
+
+    void animate(FollowCamera *c, float deltaTime){
+        Rectangle r = c->toScreenSpace(spriteRect);
         
+        anim.playAnimation(anim.defaultAnimation, deltaTime, r, 1);
     }
-
-    void animate(){
-
-    }
-
-    void onInteractionDisplay(DialogueBox *db, float deltaTime){
-        // db->renderDialogue(dialogues.text[currentDlgIndex], deltaTime);
-    }
-
     
 };
 

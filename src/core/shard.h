@@ -1,3 +1,11 @@
 #pragma once
 
-#include 
+#include "interactable.h"
+
+struct Shard : public Interactable{
+    
+    // Shard(){}
+
+
+
+};

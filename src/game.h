@@ -57,6 +57,7 @@ public:
 
 	bool checkInteractions();
 	void loadLevel();
+	void loadInteractable(const char *file);
 
 
 	//reset

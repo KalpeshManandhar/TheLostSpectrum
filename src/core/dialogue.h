@@ -6,7 +6,7 @@
 #define DEFAULT_FONT_SIZE 32
 
 struct DialogueArray{
-    char text[DLG_ARRAY_SIZE][60];
+    char text[DLG_ARRAY_SIZE][60] = {0};
 };
 
 
