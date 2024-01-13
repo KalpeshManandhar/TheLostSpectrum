@@ -8,10 +8,8 @@
 struct Slime: public Entity{
     AnimationSheet ani;
 
-    bool isActive;
     float attackCooldown;
     float attackTimer;
-    int damageCount;
 
     enum States {
         SLIME_IDLE,
@@ -25,12 +23,11 @@ struct Slime: public Entity{
     Slime(){}
     Slime(Rectangle sprite): Entity (sprite){
 
-        state = States::SLIME_IDLE;
-        direction = 1;
-        isActive = true;
-        attackCooldown = 5.0f;
-        attackTimer = 0.0f;
-        damageCount = 0;
+            state = States::SLIME_IDLE;
+            direction = 1;
+            attackCooldown = 5.0f;
+            attackTimer = 0.0f;
+            damageCount = 0;
     }
 
     void loadAnimations(){
@@ -99,7 +96,8 @@ struct Slime: public Entity{
                 attackTimer = attackCooldown;
                 break;
             case SLIME_DIE:
-                ani.playAnimation("die", deltaTime, r, direction);
+                if(ani.playAnimation("die", deltaTime, r, direction))
+                  isActive = false;
                 break;
             case SLIME_HURT:
                 ani.playAnimation("attack", deltaTime, r, direction);

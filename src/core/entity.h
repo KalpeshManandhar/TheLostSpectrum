@@ -20,6 +20,8 @@ struct Entity{
     int direction;
     int health;
     
+    int damageCount;
+    bool isActive;
     bool isAttacking;
     bool isVulnerable;
     float invulnerableTime;

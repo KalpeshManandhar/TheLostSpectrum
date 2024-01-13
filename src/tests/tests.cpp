@@ -64,30 +64,28 @@ TestData* testInit(){
 
     t->slime[0] = Slime(s0);
     t->slime[0].loadAnimations();
-    t->slime[0].hurtbox.r *= 1.2;
+    t->slime[0].hurtbox.r *= 1.5;
 
     t->slime[1] = Slime(s1);
     t->slime[1].loadAnimations();
-    t->slime[0].hurtbox.r *= 1.2;
+    t->slime[1].hurtbox.r *= 1.5;
 
     t->slime[2] = Slime(s2);
     t->slime[2].loadAnimations();
-    t->slime[0].hurtbox.r *= 1.2;
+    t->slime[2].hurtbox.r *= 1.5;
 
     t->player = Player(p);
     t->player.loadPlayerAnimations();
-    t->slime[0].hurtbox.r *= 1.5;
 
     t->wizard = Wizard();
     t->wizard.loadWizardAnimations();
 
     t->bossSlime = Slime(b);
     t->bossSlime.loadAnimations();
-    t->slime[0].hurtbox.r *= 3.5;
+    t->bossSlime.hurtbox.r *= 3.5;
     
     t->npc = NPC(n);
     t->npc.loadNPC();
-    t->slime[0].hurtbox.r *= 1.5;
    
     t->comp = compass(c);
     t->comp.loadCompass();

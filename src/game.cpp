@@ -90,85 +90,90 @@ Rectangle tile;
 
 void Game::Update( float dt)
 {
-    for (auto gs: stateStack){
+    for (auto gs : stateStack) {
+
         switch (gs)
         {
         case GAME_ACTIVE:
             // DrawTexture(testData->background, 0, 0, WHITE);
-
             testData->c.update();
 
 
             level->displayBase(&testData->c, shardsCollected);
             displaySlime(testData, dt);
-            
+
 
             testData->player.animate(&testData->c, dt);
             level->displayOverlay(&testData->c, shardsCollected);
             DrawRectangleLinesEx(tile, 12, WHITE);
 
-                if (circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox)) {
-                    const double s0time = GetTime();
-                    if (testData->player.isAttacking) {
-                        testData->slime[0].playDead(&testData->c, dt);
-
-                         testData->slime[0].isActive = false;
-                    }
-                }
-            if (circleCircleCollisionCheck(testData->slime[1].hurtbox, testData->player.hurtbox)) {
-
-                if (testData->player.isAttacking) {
-                    testData->slime[1].playDead(&testData->c, dt);
-                    testData->slime[1].isActive = false;
+            if (circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox))
+            {
+                const double s0time = GetTime();
+                if (testData->player.isAttacking && testData->slime[0].isActive) 
+                {
+                    testData->slime[0].state = testData->slime[0].SLIME_DIE;
                 }
             }
-            if (circleCircleCollisionCheck(testData->slime[2].hurtbox, testData->player.hurtbox)) {
+            if (circleCircleCollisionCheck(testData->slime[1].hurtbox, testData->player.hurtbox)) 
+            {
 
-                if (testData->player.isAttacking) {
-                    testData->slime[2].playDead(&testData->c, dt);
-                    testData->slime[2].isActive = false;
+                if (testData->player.isAttacking && testData->slime[1].isActive) 
+                {
+                    testData->slime[1].state = testData->slime[1].SLIME_DIE;
                 }
             }
-            
+            if (circleCircleCollisionCheck(testData->slime[2].hurtbox, testData->player.hurtbox))
+            {
+
+                if (testData->player.isAttacking && testData->slime[2].isActive) 
+                {
+                    testData->slime[2].state = testData->slime[2].SLIME_DIE;
+                }
+            }
+
             testData->bossSlime.attackTimer -= GetFrameTime();
             if (testData->bossSlime.attackTimer <= 0.f) {
                 testData->bossSlime.attack();
             }
-            if (circleCircleCollisionCheck(testData->bossSlime.hurtbox, testData->player.hurtbox)) {
+            if (circleCircleCollisionCheck(testData->bossSlime.hurtbox, testData->player.hurtbox)) 
+            {
                 if (testData->player.isAttacking) {
-                    if (testData->bossSlime.damageCount < 5) {
+                    if ((testData->bossSlime.damageCount < 5)) {
                         testData->bossSlime.takeDamage(&testData->c, dt);
                         std::cout << "damage count : " << testData->bossSlime.damageCount << "\n";
                     }
-                    else {
+                else if (testData->bossSlime.isActive) {
 
-                        testData->bossSlime.playDead(&testData->c, dt);
-                        testData->bossSlime.isActive = false;
-                        testData->bossSlime.damageCount = 0;
-                    }
+                    testData->bossSlime.state = testData->bossSlime.SLIME_DIE;
+                    testData->bossSlime.damageCount = 0;
+                }
                 }
             }
-            break;
+
         
+
+            break;
+
         case GAME_DIALOGUE:
             db.show(dt);
             break;
         case GAME_RIDDLE:
             r.riddleBox();
             break;
-        
+
         default:
             break;
         }
     }
-
-    
+}
+ 
     //Player.draw({0,0});
     //Player.movementCheck();
 
     //DrawText("INITIAL CONVERSATION STARTS", static_cast<int>((Width / 2) - 250), static_cast<int>(Height / 2), 50, WHITE);
     
-}
+
 
 void Game::DoCollitions() {
 
