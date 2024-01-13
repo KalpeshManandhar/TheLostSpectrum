@@ -9,6 +9,7 @@
 #include "tests/tests.h"
 #include "./core/interactable.h"
 #include "./core/level.h"
+#include "./core/riddle.h"
 
 enum GameState {
 	GAME_ACTIVE,
@@ -30,6 +31,7 @@ public:
 
 	std::vector<Interactable> interactables;
 	DialogueBox db;
+	riddle r;
 
 	LevelMap *level;	
 

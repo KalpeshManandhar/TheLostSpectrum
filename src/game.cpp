@@ -47,12 +47,32 @@ void Game::ProcessInput(float dt) {
             }
         }
         break;
+    case GAME_RIDDLE:
+        if (IsKeyPressed(KEY_R))
+        {
+            if (r.isEmpty())
+                stateStack.pop_back();
+        }
+        
+        break;
+        if (IsKeyPressed(KEY_Q)) {
+            if (!db.nextDlg()) {
+                stateStack.pop_back();
+            }
+        }
+        break;
     case GAME_ACTIVE:
         if (IsKeyPressed(KEY_Q)){
             stateStack.push_back(GameState::GAME_DIALOGUE);
             db.setNewDialogueArray(&d);
-            break;
-        } 
+            //break;
+        }
+        if (IsKeyPressed(KEY_R)) {
+            stateStack.push_back(GameState::GAME_RIDDLE);
+            //db.setNewDialogueArray(&d);
+            //break;
+        }
+
 
         // testData->player.resolveChanges();
         testLoop(testData, dt);
@@ -81,6 +101,9 @@ void Game::Update( float dt)
         
         case GAME_DIALOGUE:
             db.show(dt);
+            break;
+        case GAME_RIDDLE:
+            r.riddleBox();
             break;
         
         default:
