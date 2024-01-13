@@ -43,25 +43,27 @@ struct Slime: public Entity{
         ani = AnimationSheet("./assets/player.png", 50, 37);
         ani.addAnimation("idle", 0, 4, true);
         ani.addAnimation("idle2", 38, 4, true);
-        ani.addAnimation("move", 9, 6, true);
+        ani.addAnimation("move", 8, 6, true);
         ani.addAnimation("attack", 39,11, false);
         ani.setDefaultAnimation("idle");
 
-        ani.setFPS(7);
+        ani.setFPS(12);
     }
 
     void move(){
         if (IsKeyDown(KEY_W)) {
             addVelocity(Vector2{0,-10.0f});
         }
-        if (IsKeyDown(KEY_A)) {
-            addVelocity(Vector2{-10.0f,0});
-        }
-        if (IsKeyDown(KEY_S)) {
+        else if (IsKeyDown(KEY_S)) {
             addVelocity(Vector2{0, 10.0f});
         }
-        if (IsKeyDown(KEY_D)) {
+        if (IsKeyDown(KEY_A)) {
+            addVelocity(Vector2{-10.0f,0});
+            direction = 0;
+        }
+        else if (IsKeyDown(KEY_D)) {
             addVelocity(Vector2{10.0f,0});
+            direction = 1;
         }
 
     }
@@ -82,16 +84,10 @@ struct Slime: public Entity{
             
         }
 
-        else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)){
+        else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_A) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)){
             move();
             state = States::STATE_MOVE;
         }
-
-        else if (IsKeyDown(KEY_A)) {
-            move();
-            state = States::STATE_REVERSE;
-        }
-
     }
 
     void animate(FollowCamera *camera, float deltaTime){
@@ -99,21 +95,18 @@ struct Slime: public Entity{
 
         switch (state){
         case STATE_IDLE:
-            ani.playAnimation("idle", deltaTime, r);
+            ani.playAnimation("idle", deltaTime, r, direction);
             break;
         case STATE_MOVE:
-            ani.playAnimation("move", deltaTime, r);
-            break;
-        case STATE_REVERSE:
-            ani.playAnimation("move", deltaTime, r, 0);
+            ani.playAnimation("move", deltaTime, r, direction);
             break;
         case STATE_ATTACK:
-            if (ani.playAnimation("attack", deltaTime, r)){
+            if (ani.playAnimation("attack", deltaTime, r, direction)){
                 isAttacking = false;
             }
             break;
         case STATE_HURT:
-            ani.playAnimation("attack", deltaTime, r);
+            ani.playAnimation("attack", deltaTime, r, direction);
             break;
         
         default:

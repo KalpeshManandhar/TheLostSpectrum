@@ -61,14 +61,16 @@ public:
 		if (IsKeyDown(KEY_W)) {
 			addVelocity(Vector2{ 0,-10.0f });
 		}
-		if (IsKeyDown(KEY_A)) {
-			addVelocity(Vector2{ -10.0f,0 });
-		}
-		if (IsKeyDown(KEY_S)) {
+		else if (IsKeyDown(KEY_S)) {
 			addVelocity(Vector2{ 0, 10.0f });
 		}
-		if (IsKeyDown(KEY_D)) {
+		if (IsKeyDown(KEY_A)) {
+			addVelocity(Vector2{ -10.0f,0 });
+			direction = 0;
+		}
+		else if (IsKeyDown(KEY_D)) {
 			addVelocity(Vector2{ 10.0f,0 });
+			direction = 1;
 		}
 
 	}
@@ -81,14 +83,9 @@ public:
 
 		}
 
-		else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D)) {
+		else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D) || IsKeyDown(KEY_A)) {
 			move();
 			state = States::STATE_MOVE;
-		}
-
-		else if (IsKeyDown(KEY_A)) {
-			move();
-			state = States::STATE_REVERSE;
 		}
 
 	}
@@ -98,21 +95,18 @@ public:
 
 		switch (state) {
 		case STATE_IDLE:
-			anim.playAnimation("idle", deltaTime, r);
+			anim.playAnimation("idle", deltaTime, r, direction);
 			break;
 		case STATE_MOVE:
-			anim.playAnimation("move", deltaTime, r);
-			break;
-		case STATE_REVERSE:
-			anim.playAnimation("move", deltaTime, r, 0);
+			anim.playAnimation("move", deltaTime, r, direction);
 			break;
 		case STATE_ATTACK:
-			if (anim.playAnimation("attack", deltaTime, r)) {
+			if (anim.playAnimation("attack", deltaTime, r, direction)) {
 				isAttacking = false;
 			}
 			break;
 		case STATE_HURT:
-			anim.playAnimation("attack", deltaTime, r);
+			anim.playAnimation("attack", deltaTime, r, direction);
 			break;
 
 		default:
