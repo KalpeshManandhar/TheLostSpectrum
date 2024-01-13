@@ -23,3 +23,4 @@ static inline Vector2 resolveCircleCollision(Circle moves, Circle stationary){
     float dist = Vector2Distance(boundary1, boundary2);
     return Vector2Scale(c2Toc1, dist);
 }
+

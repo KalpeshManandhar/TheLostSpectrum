@@ -55,8 +55,9 @@ struct Slime: public Entity{
         state = States::SLIME_IDLE;
     }
 
-    void animate(float deltaTime){
-        Rectangle r = { 0,0,32*2, 25*2 };
+    void animate(FollowCamera *c, float deltaTime){
+        Rectangle r = c->toScreenSpace(sprite);
+
 
         switch (state){
         case SLIME_IDLE:
@@ -168,7 +169,7 @@ struct Player : public Entity {
 
     }
 
-    void animatep(FollowCamera* camera, float deltaTime) {
+    void animate(FollowCamera* camera, float deltaTime) {
         Rectangle r = camera->toScreenSpace(sprite);
 
         switch (state) {
@@ -252,8 +253,9 @@ struct Wizard : public Entity {
         state = States::WIZARD_IDLE;
     }
 
-    void animatew(float deltaTime) {
-        Rectangle r = { 200,300,78*3,80*3};
+    void animate(FollowCamera *camera, float deltaTime) {
+        Rectangle r = camera->toScreenSpace(sprite);
+
 
         switch (state) {
         case WIZARD_IDLE:
@@ -310,9 +312,8 @@ struct NPC : public Entity {
         state = States::NPC_IDLE;
     }
 
-    void animateNPC(float deltaTime) {
-
-        Rectangle r = { 700,300,94 * 1,91 * 1 };
+    void animate(FollowCamera *camera, float deltaTime) {
+        Rectangle r = camera->toScreenSpace(sprite);
 
         anim.playAnimation("idle", deltaTime, r, direction);
     }

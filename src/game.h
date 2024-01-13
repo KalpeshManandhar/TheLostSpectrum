@@ -33,6 +33,9 @@ public:
 
 	LevelMap *level;	
 
+	int shardsCollected = 0;
+	Shader filterShader;
+
 	unsigned int Width, Height;
 
 	//std::vector<GameLevel> Levels;

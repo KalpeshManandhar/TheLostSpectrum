@@ -11,10 +11,12 @@
 #define Min(a,b) ((a)<(b)? (a):(b))
 
 struct LevelMap{
+    // no of tiles in the level map
     int w, h;
 
     int tileW, tileH;
     Texture2D texTilemap;
+    // no of tiles in the tilemap
     int nTileHor, nTileVert;
 
     int destTileW, destTileH;
