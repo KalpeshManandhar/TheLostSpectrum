@@ -94,6 +94,7 @@ void Game::Update( float dt)
             // DrawTexture(testData->background, 0, 0, WHITE);
             testData->c.update();
             level->displayBase(&testData->c);
+
             
             testDisplay(testData, dt);
             level->displayOverlay(&testData->c);

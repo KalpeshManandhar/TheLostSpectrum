@@ -22,8 +22,7 @@ TestData* testInit(){
 
     Rectangle r = {
         0,0,
-        200,150
-    };
+        300,300    };
     Rectangle p = {
         200,200,
         180,120
@@ -40,7 +39,7 @@ TestData* testInit(){
     t->player.loadPlayerAnimations();
 
 
-    t->wizard = Wizard(b);
+    t->wizard = Wizard();
     t->wizard.loadWizardAnimations();
 
     t->npc = NPC();
@@ -88,10 +87,11 @@ void testDisplay(TestData *t, float deltaTime){
 }
 
 void testFixedLoop(TestData *t, float deltaTime){
+    
+    //t->wizard.update(deltaTime);
+    //t->npc.update(deltaTime);
     t->slime1.update(deltaTime);
-    t->wizard.update(deltaTime);
     t->player.update(deltaTime);
-    t->npc.update(deltaTime);
     //t->boss.update(deltaTime);
     //t->boss.update(deltaTime);
 

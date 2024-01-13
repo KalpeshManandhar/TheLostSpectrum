@@ -7,6 +7,7 @@
 
 struct Slime: public Entity{
     AnimationSheet ani;
+    Entity _slime;
 
     enum States {
         SLIME_IDLE,
@@ -18,7 +19,7 @@ struct Slime: public Entity{
     };
 
     Slime(){}
-    Slime(Rectangle sprite): Entity (sprite){
+    Slime(Rectangle sprite): _slime (sprite){
 
         state = States::SLIME_IDLE;
         direction = 1;
@@ -40,7 +41,20 @@ struct Slime: public Entity{
     }
 
     void move(){
-
+            if (IsKeyDown(KEY_W)) {
+                addVelocity(Vector2{ 0,-25.0f });
+            }
+            else if (IsKeyDown(KEY_S)) {
+                addVelocity(Vector2{ 0, 25.0f });
+            }
+            if (IsKeyDown(KEY_A)) {
+                addVelocity(Vector2{ -25.0f,0 });
+                direction = 0;
+            }
+            else if (IsKeyDown(KEY_D)) {
+                addVelocity(Vector2{ 25.0f,0 });
+                direction = 1;
+            }
     }
 
     void attack(){
@@ -79,7 +93,6 @@ struct Slime: public Entity{
         }
     }
 
-
 };
 
 struct Player : public Entity {
@@ -98,7 +111,7 @@ struct Player : public Entity {
     };
 
     Player() {}
-    Player(Rectangle sprite) : Entity(sprite) {
+    Player(Rectangle sprite) : Entity (sprite) {
 
         state = States::PLAYER_IDLE;
         direction = 1;
@@ -197,6 +210,7 @@ struct Wizard : public Entity {
     AnimationSheet anim;
     float speed = 0;
     Vector2 position = { 120,120 };
+    Entity _wizard;
 
     enum States {
         WIZARD_IDLE,
@@ -208,7 +222,7 @@ struct Wizard : public Entity {
     };
 
     Wizard() {}
-    Wizard(Rectangle sprite) : Entity(sprite) {
+    Wizard(Rectangle sprite) : _wizard(sprite) {
 
         state = States::WIZARD_IDLE;
         direction = 1;
@@ -280,13 +294,14 @@ struct Wizard : public Entity {
 struct NPC : public Entity {
     AnimationSheet anim;
     float speed = 0;
+    Entity _npc;
 
     enum States {
         NPC_IDLE
     };
 
     NPC() {}
-    NPC(Rectangle sprite) : Entity(sprite) {
+    NPC(Rectangle sprite) : _npc(sprite) {
 
         state = States::NPC_IDLE;
         direction = 0;
