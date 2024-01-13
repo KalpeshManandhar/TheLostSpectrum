@@ -7,24 +7,25 @@
 
 class player:public Entity
 {
+
+public:
 	AnimationSheet anim;
 	Vector2 position = { 120,120 };
 	float speed=0;
 	Vector2 size = { 16,16 };
 
-public:
 	enum States {
-		STATE_IDLE,
-		STATE_MOVE,
-		STATE_ATTACK,
-		STATE_HURT,
-		STATE_DIE,
-		STATE_REVERSE
+		PLAYER_IDLE,
+		PLAYER_MOVE,
+		PLAYER_ATTACK,
+		PLAYER_HURT,
+		PLAYER_DIE,
+		PLAYER_REVERSE
 	};
 
 	player(): Entity({120 , 120, 16, 16}) {
 
-			state = States::STATE_IDLE;
+			state = States::PLAYER_IDLE;
 			direction = 1;
 	};
 
@@ -47,7 +48,7 @@ public:
 	}
 
 	void playerInit() {
-			anim = AnimationSheet("assets/player.png", 50, 37);
+			anim = AnimationSheet("./assets/player.png", 50, 37);
 			anim.addAnimation("idle", 0, 4, true);
 			anim.addAnimation("idle2", 38, 4, true);
 			anim.addAnimation("move", 9, 6, true);
@@ -76,36 +77,36 @@ public:
 	}
 
 	void resolveChanges() {
-		state = States::STATE_IDLE;
+		state = States::PLAYER_IDLE;
 		if (isAttacking || IsKeyDown(KEY_E)) {
 			attack();
-			state = States::STATE_ATTACK;
+			state = States::PLAYER_ATTACK;
 
 		}
 
 		else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D) || IsKeyDown(KEY_A)) {
 			move();
-			state = States::STATE_MOVE;
+			state = States::PLAYER_MOVE;
 		}
 
 	}
 
-	void animate(FollowCamera* camera, float deltaTime) {
+	void animatep(FollowCamera* camera, float deltaTime) {
 		Rectangle r = camera->toScreenSpace(sprite);
 
 		switch (state) {
-		case STATE_IDLE:
+		case PLAYER_IDLE:
 			anim.playAnimation("idle", deltaTime, r, direction);
 			break;
-		case STATE_MOVE:
+		case PLAYER_MOVE:
 			anim.playAnimation("move", deltaTime, r, direction);
 			break;
-		case STATE_ATTACK:
+		case PLAYER_ATTACK:
 			if (anim.playAnimation("attack", deltaTime, r, direction)) {
 				isAttacking = false;
 			}
 			break;
-		case STATE_HURT:
+		case PLAYER_HURT:
 			anim.playAnimation("attack", deltaTime, r, direction);
 			break;
 
