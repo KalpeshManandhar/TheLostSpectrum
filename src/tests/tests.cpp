@@ -36,13 +36,15 @@ TestData* testInit(){
     t->slime1 = Slime(r);
     t->slime1.loadAnimations();
 
-    t->player = Slime(p);
-    t->player.loadPlayerAnimatios();
+    t->player = Player(p);
+    t->player.loadPlayerAnimations();
 
 
-    //t->boss = Slime(b);
-    //t->player.loadBossAnimation();
+    t->wizard = Wizard(b);
+    t->wizard.loadWizardAnimations();
 
+    t->npc = NPC();
+    t->npc.loadNPC();
 
     //t->p = player();
     //t->p.playerInit();
@@ -74,10 +76,12 @@ void testLoop(TestData *t, float deltaTime){
 
 void testDisplay(TestData *t, float deltaTime){
 
-    t->slime1.animate(&t->c, deltaTime);
-    //t->p.animate(&t->c, deltaTime);
-    t->player.animate(&t->c, deltaTime);
+    t->slime1.animate(deltaTime);
+    t->wizard.animatew(deltaTime);
+    t->player.animatep(&t->c, deltaTime);
+    t->npc.animateNPC(deltaTime);
 
+    //t->boss.animate(&t->c, deltaTime);
     // DialogueBox db;
 
     // db.renderDialogue("I am mad scientist. It's so cool. Sonuvabitch", deltaTime);
@@ -85,10 +89,10 @@ void testDisplay(TestData *t, float deltaTime){
 
 void testFixedLoop(TestData *t, float deltaTime){
     t->slime1.update(deltaTime);
-   // t->p.update(deltaTime);
-
-    /*t->slime2.update(deltaTime);*/
+    t->wizard.update(deltaTime);
     t->player.update(deltaTime);
+    t->npc.update(deltaTime);
+    //t->boss.update(deltaTime);
     //t->boss.update(deltaTime);
 
     if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
