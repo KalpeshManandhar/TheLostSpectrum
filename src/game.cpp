@@ -106,7 +106,7 @@ void Game::Update( float dt)
 
 
             level->displayBase(&testData->c, shardsCollected);
-            testDisplay(testData, dt);
+            //testDisplay(testData, dt);
             
             for (auto &i : interactables){
                 i.animate(&testData->c, dt);
