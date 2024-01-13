@@ -25,3 +25,4 @@ void testLoop(TestData *t, float deltaTime);
 void testDisplay(TestData *t, float deltaTime);
 void testFixedLoop(TestData *t, float deltaTime);
 void displaySlime(TestData* t, float deltaTime);
+void updateSlimeBoss(Slime& s, float dt, Player& p);

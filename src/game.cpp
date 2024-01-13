@@ -28,7 +28,6 @@ void Game::Init() {
     loadInteractable("./assets/npcs/npc2.txt");
 
     memset(slimehits, 0, 3 * sizeof(int));
-
 }
 
 
@@ -138,28 +137,8 @@ void Game::Update( float dt)
                 }
             }
 
-
-            if (circleCircleCollisionCheck(testData->slime[3].hurtbox, testData->player.hurtbox)){
-            //    const double bossStartTime = GetTime();
-            //    int i = 0;
-            //    if (((GetTime() - (i * testData->slime[3].attackCooldown + bossStartTime)) > testData->slime[3].attackCooldown) && !testData->slime[3].isAttacking) {
-            //        testData->slime[3].state = testData->slime[3].SLIME_ATTACK;
-            //        i++;
-            //    }
-                if (testData->player.isAttacking) {
-                    if ((testData->slime[3].damageCount < 5 )) {
-                        testData->slime[3].state = testData->slime[3].SLIME_HURT;
-                        std::cout << "damage count : " << testData->slime[3].damageCount << "\n";
-                    }
-                    else if ((testData->slime[3].damageCount >=5) && testData->slime[3].isActive) {
-
-                    testData->slime[3].state = testData->slime[3].SLIME_DIE;
-                    testData->slime[3].damageCount = 0;
-                }
-                }
-            }
-
-        
+            updateSlimeBoss(testData->slime[3], dt,testData->player);
+            
 
             break;
 

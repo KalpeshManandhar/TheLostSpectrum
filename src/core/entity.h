@@ -23,7 +23,7 @@ struct Entity{
     float attackCooldown;
     float attackTimer;
     
-    int damageCount;
+    unsigned int bosslives;
     bool isActive;
     bool isAttacking;
     bool isVulnerable;
@@ -35,7 +35,6 @@ struct Entity{
         velocity = {0,0};
         sprite = spriteRect;
 
-        damageCount = 0;
         attackCooldown = 5.0f;
         attackTimer = 0.0f;
         hurtbox.center.x = sprite.x + 0.5 * sprite.width; 

@@ -61,9 +61,6 @@ TestData* testInit(){
         94 * 1.5, 91 * 1.5
     };
 
-    t->bossSlime = Slime(b);
-    t->bossSlime.loadAnimations();
-
     t->slime[0] = Slime(s0);
     t->slime[0].loadAnimations();
     t->slime[0].hurtbox.r *= 2;
@@ -85,6 +82,7 @@ TestData* testInit(){
     t->slime[3] = Slime(b);
     t->slime[3].loadAnimations();
     t->slime[3].hurtbox.r *= 3;
+    t->slime[3].bosslives = 30;
     
     t->npc = NPC(n);
     t->npc.loadNPC();
@@ -118,7 +116,7 @@ void testFixedLoop(TestData *t, float deltaTime){
     if (circleCircleCollisionCheck(t->slime[3].hurtbox, t->player.hurtbox)) {
         Vector2 r = resolveCircleCollision(t->slime[3].hurtbox, t->player.hurtbox);
         //t->slime[3].updatePos(r);
-        printf("bossSlime");
+       // printf("bossSlime");
     }
 
     if (circleCircleCollisionCheck(t->npc.hurtbox, t->player.hurtbox)) {
@@ -139,6 +137,34 @@ void displaySlime(TestData* t, float deltaTime) {
 
     t->comp.animate( deltaTime);
 
+}
+
+void updateSlimeBoss(Slime& s, float dt, Player &pl) {
+    s.attackTimer += dt;
+    //std::cout << "\n" << s.attackTimer << "\n";
+
+    if (s.attackTimer >= s.attackCooldown) {
+
+        s.isAttacking = true;
+        s.state = s.SLIME_ATTACK;
+        s.attackTimer = 0.0f;
+
+    }
+    else {
+        s.isAttacking = false;
+    }
+
+
+
+    if (circleCircleCollisionCheck(s.hurtbox, pl.hurtbox)) {
+        if (pl.isAttacking && s.isActive) {
+            s.state = s.SLIME_HURT;
+        }
+    }
+
+    if (s.bosslives <= 0 && s.isActive) {
+        s.state = s.SLIME_DIE;
+    }
 }
 
 TestData::~TestData()

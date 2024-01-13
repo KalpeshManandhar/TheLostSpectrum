@@ -31,13 +31,13 @@ int main(void){
 
     Game TheLostSpectrum(width, height);
     
-#ifndef NO_INTRO
+//#ifndef NO_INTRO
 
-    //splashScreen ss("TEAM DOTS PRESENTS", 50, width, height, 3);
-    //ss.displaySplashScreen(WHITE, BLACK, "./assets/boat.png", 800, 600, 0, 21);
-    //
-    //splashScreen ss2("THE LOST SPECTRUM", 50,  width, height, 3);
-    //ss2.displaySplashScreen(BLACK, RAYWHITE, "./assets/boat.png", 800, 600, 21,41 );
+    splashScreen ss("TEAM DOTS PRESENTS", 50, width, height, 3);
+    ss.displaySplashScreen(WHITE, BLACK, "./assets/boat.png", 800, 600, 0, 21);
+    
+    splashScreen ss2("THE LOST SPECTRUM", 50,  width, height, 3);
+    ss2.displaySplashScreen(BLACK, RAYWHITE, "./assets/boat.png", 800, 600, 21,41 );
 
     //splashScreen ss3("In the realm of Chromaterra, where colors \n once danced harmoniously across vibrant \n landscapes, a tale unfolds.",40, width, height - 300, 6);
     //ss3.displaySplashScreen(WHITE, BLACK, "./assets/staticboat.png", 600, 437, 0, 35);
@@ -45,7 +45,7 @@ int main(void){
     //splashScreen ss4("In the realm of Chromaterra, where colors \n once danced harmoniously across vibrant \n landscapes, a tale unfolds.", 30, width, height - 400, 6);
     //ss4.displayConvo(BLACK, WHITE, "./assets/bg.png");
 
-#endif
+//#endif
 
     SetTargetFPS(60);
     

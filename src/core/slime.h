@@ -4,6 +4,8 @@
 #include "camera.h"
 #include "animation.h"
 #include "camera.h"
+#include <iostream>
+#include "collision.h"
 
 struct Slime: public Entity{
     AnimationSheet ani;
@@ -61,7 +63,6 @@ struct Slime: public Entity{
     
     void takeDamage(){
         isHurt = true;
-        damageCount++;
     }
 
     void resolveChanges(){
@@ -96,9 +97,12 @@ struct Slime: public Entity{
                 break;
             case SLIME_HURT:
                 isHurt = true;
-                damageCount++;
                 if (ani.playAnimation("hurt", deltaTime, r, direction))
+                {
+                    bosslives--;
+                    std::cout << "\n bosslive : " << bosslives << "\n";
                     isHurt = false;
+                }
                 break;
 
             default:
