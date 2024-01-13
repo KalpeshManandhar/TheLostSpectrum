@@ -132,21 +132,21 @@ void Game::Update( float dt)
                 }
             }
 
-            testData->bossSlime.attackTimer -= GetFrameTime();
-            if (testData->bossSlime.attackTimer <= 0.f) {
-                testData->bossSlime.attack();
-            }
-            if (circleCircleCollisionCheck(testData->bossSlime.hurtbox, testData->player.hurtbox)) 
+            //testData->bossSlime.attackTimer -= GetFrameTime();
+            //if (testData->bossSlime.attackTimer <= 0.f) {
+            //    testData->bossSlime.attack();
+            //}
+            if (circleCircleCollisionCheck(testData->slime[3].hurtbox, testData->player.hurtbox))
             {
                 if (testData->player.isAttacking) {
-                    if ((testData->bossSlime.damageCount < 5)) {
-                        testData->bossSlime.takeDamage(&testData->c, dt);
-                        std::cout << "damage count : " << testData->bossSlime.damageCount << "\n";
+                    if ((testData->slime[3].damageCount < 5)) {
+                        testData->slime[3].takeDamage(&testData->c, dt);
+                        std::cout << "damage count : " << testData->slime[3].damageCount << "\n";
                     }
-                else if (testData->bossSlime.isActive) {
+                    else if ((testData->slime[3].damageCount >=5) && testData->slime[3].isActive) {
 
-                    testData->bossSlime.state = testData->bossSlime.SLIME_DIE;
-                    testData->bossSlime.damageCount = 0;
+                    testData->slime[3].state = testData->slime[3].SLIME_DIE;
+                    testData->slime[3].damageCount = 0;
                 }
                 }
             }
@@ -291,8 +291,8 @@ void Game::loadLevel(){
     testData->slime[2].updatePos(slime2Pos);
 
     Vector2 bossSlimePos = {
-    level->playerSpawn.x + 4000 - testData->bossSlime.sprite.x,
-    (level->playerSpawn.y - 600 - testData->bossSlime.sprite.y) / ZY_FACTOR,
+    level->playerSpawn.x + 4000 - testData->slime[3].sprite.x,
+    (level->playerSpawn.y - 600 - testData->slime[3].sprite.y) / ZY_FACTOR,
     };
-    testData->bossSlime.updatePos(bossSlimePos);
+    testData->slime[3].updatePos(bossSlimePos);
 }

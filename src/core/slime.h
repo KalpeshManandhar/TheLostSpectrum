@@ -27,7 +27,6 @@ struct Slime: public Entity{
             direction = 1;
             attackCooldown = 5.0f;
             attackTimer = 0.0f;
-            damageCount = 0;
     }
 
     void loadAnimations(){

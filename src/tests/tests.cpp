@@ -19,7 +19,7 @@ AnimationSheet slimeAnimate(){
 TestData* testInit(){
     TestData* t = new TestData;
 
-    t->slime = new Slime[3];
+    t->slime = new Slime[4];
     t->tinySlimeHits = 0;
 
     Rectangle s0 = {
@@ -52,8 +52,8 @@ TestData* testInit(){
     };
 
     Rectangle b = {
-    100,100,
-    200,200
+    0,0,
+    200,150
     };
 
     Rectangle n = {
@@ -61,18 +61,20 @@ TestData* testInit(){
         94 * 1.5, 91 * 1.5
     };
 
+    t->bossSlime = Slime(b);
+    t->bossSlime.loadAnimations();
 
     t->slime[0] = Slime(s0);
     t->slime[0].loadAnimations();
-    t->slime[0].hurtbox.r *= 1.5;
+    t->slime[0].hurtbox.r *= 2;
 
     t->slime[1] = Slime(s1);
     t->slime[1].loadAnimations();
-    t->slime[1].hurtbox.r *= 1.5;
+    t->slime[1].hurtbox.r *= 2;
 
     t->slime[2] = Slime(s2);
     t->slime[2].loadAnimations();
-    t->slime[2].hurtbox.r *= 1.5;
+    t->slime[2].hurtbox.r *= 2;
 
     t->player = Player(p);
     t->player.loadPlayerAnimations();
@@ -80,9 +82,9 @@ TestData* testInit(){
     t->wizard = Wizard();
     t->wizard.loadWizardAnimations();
 
-    t->bossSlime = Slime(b);
-    t->bossSlime.loadAnimations();
-    t->bossSlime.hurtbox.r *= 3.5;
+    t->slime[3] = Slime(b);
+    t->slime[3].loadAnimations();
+    t->slime[3].hurtbox.r *= 3;
     
     t->npc = NPC(n);
     t->npc.loadNPC();
@@ -108,13 +110,14 @@ void testFixedLoop(TestData *t, float deltaTime){
     t->slime[0].update(deltaTime);
     t->slime[1].update(deltaTime);
     t->slime[2].update(deltaTime);
-    t->bossSlime.update(deltaTime);
+    t->slime[3].update(deltaTime);
+    /* t->bossSlime.update(deltaTime);*/
     t->player.update(deltaTime);
     t->comp.update(deltaTime);
 
-    if (circleCircleCollisionCheck(t->bossSlime.hurtbox, t->player.hurtbox)) {
-        Vector2 r = resolveCircleCollision(t->bossSlime.hurtbox, t->player.hurtbox);
-        t->bossSlime.updatePos(r);
+    if (circleCircleCollisionCheck(t->slime[3].hurtbox, t->player.hurtbox)) {
+        Vector2 r = resolveCircleCollision(t->slime[3].hurtbox, t->player.hurtbox);
+        t->slime[3].updatePos(r);
         printf("bossSlime");
     }
 
@@ -128,14 +131,14 @@ void displaySlime(TestData* t, float deltaTime) {
     t->slime[0].animate(&t->c, deltaTime);
     t->slime[1].animate(&t->c, deltaTime);
     t->slime[2].animate(&t->c, deltaTime);
-
+    t->slime[3].animate(&t->c, deltaTime);
+    //t->bossSlime.animate(&t->c, deltaTime);
     t->wizard.animate(&t->c, deltaTime);
 
     t->npc.animate(&t->c, deltaTime);
 
     t->comp.animate( deltaTime);
 
-    t->bossSlime.animate(&t->c, deltaTime);
 }
 
 TestData::~TestData()
