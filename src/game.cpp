@@ -22,11 +22,11 @@ void Game::Init() {
     testData = testInit();
     loadLevel();
 
-
-    Image i = LoadImage("./assets/dungeon.png");
-    ImageResize(&i, 1280, 720);
-    testData->background = LoadTextureFromImage(i);
-    UnloadImage(i);
+    slimeHit = false;
+    //Image i = LoadImage("./assets/dungeon.png");
+    //ImageResize(&i, 1280, 720);
+    //testData->background = LoadTextureFromImage(i);
+    //UnloadImage(i);
 }
 
 
@@ -90,13 +90,43 @@ void Game::Update( float dt)
         {
         case GAME_ACTIVE:
             // DrawTexture(testData->background, 0, 0, WHITE);
+
             testData->c.update();
             level->displayBase(&testData->c);
+
             
             testDisplay(testData, dt);
             level->displayOverlay(&testData->c);
             DrawRectangleLinesEx(tile, 15, WHITE);
 
+
+            if(circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox)) {
+
+                if (testData->player.isAttacking) {
+                    /*slimeHit = true;*/
+                    testData->slime[0].playDead(&testData->c, dt);
+                    testData->slime[0].isActive = false;
+                    std::cout << "slime hit = " <<slimeHit<<"\n";
+                }
+            }
+            if (circleCircleCollisionCheck(testData->slime[1].hurtbox, testData->player.hurtbox)) {
+
+                if (testData->player.isAttacking) {
+                    /*slimeHit = true;*/
+                    testData->slime[1].playDead(&testData->c, dt);
+                    testData->slime[1].isActive = false;
+                    std::cout << "slime hit = " << slimeHit << "\n";
+                }
+            }
+            if (circleCircleCollisionCheck(testData->slime[2].hurtbox, testData->player.hurtbox)) {
+
+                if (testData->player.isAttacking) {
+                    /*slimeHit = true;*/
+                    testData->slime[2].playDead(&testData->c, dt);
+                    testData->slime[2].isActive = false;
+                    std::cout << "slime hit = " << slimeHit << "\n";
+                }
+            }
             break;
         
         case GAME_DIALOGUE:
@@ -181,14 +211,17 @@ void Game::fixedLoop(float dt)
     }
 }
 
-void Game::checkInteractions(){
-    for (auto interactable: interactables){
-        if (circleCircleCollisionCheck(testData->player.hurtbox, interactable.triggerRange)){
-            stateStack.push_back(GameState::GAME_DIALOGUE);
-            db.setNewDialogueArray(&interactable.dialogues);
-            break;
-        }
+bool Game::checkInteractions(){
+    //for (auto interactable: interactables){
+        if (circleCircleCollisionCheck(testData->player.hurtbox, testData->npc.hurtbox)){
+            //stateStack.push_back(GameState::GAME_DIALOGUE);
+            //db.setNewDialogueArray(&d);
+        //    db.setNewDialogueArray(&interactable.dialogues);
+        //    break;}
+        
+            return true;
     }
+        return false;
 }
 
 // void Game::getInteractables(){

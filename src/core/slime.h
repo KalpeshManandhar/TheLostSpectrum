@@ -8,6 +8,7 @@
 struct Slime: public Entity{
     AnimationSheet ani;
 
+    bool isActive;
     enum States {
         SLIME_IDLE,
         SLIME_MOVE,
@@ -22,9 +23,7 @@ struct Slime: public Entity{
 
         state = States::SLIME_IDLE;
         direction = 1;
-
-        
-
+        isActive = true;
     }
 
     void loadAnimations(){
@@ -40,7 +39,20 @@ struct Slime: public Entity{
     }
 
     void move(){
-
+            if (IsKeyDown(KEY_W)) {
+                addVelocity(Vector2{ 0,-25.0f });
+            }
+            else if (IsKeyDown(KEY_S)) {
+                addVelocity(Vector2{ 0, 25.0f });
+            }
+            if (IsKeyDown(KEY_A)) {
+                addVelocity(Vector2{ -25.0f,0 });
+                direction = 0;
+            }
+            else if (IsKeyDown(KEY_D)) {
+                addVelocity(Vector2{ 25.0f,0 });
+                direction = 1;
+            }
     }
 
     void attack(){
@@ -55,31 +67,39 @@ struct Slime: public Entity{
         state = States::SLIME_IDLE;
     }
 
+    void playDead(FollowCamera* c, float deltaTime) {
+        Rectangle r = c->toScreenSpace(sprite);
+        ani.playAnimation("die", deltaTime, r, direction);
+    }
+
     void animate(FollowCamera *c, float deltaTime){
         Rectangle r = c->toScreenSpace(sprite);
 
+        if(isActive) {
+            switch (state) {
+            case SLIME_IDLE:
+                ani.playAnimation("idle", deltaTime, r, direction);
+                break;
+            case SLIME_MOVE:
+                ani.playAnimation("move", deltaTime, r, direction);
+                break;
+            case SLIME_ATTACK:
+                if (ani.playAnimation("attack", deltaTime, r, direction)) {
+                    isAttacking = false;
+                }
+                break;
+            case SLIME_DIE:
+                ani.playAnimation("die", deltaTime, r, direction);
+                break;
+            case SLIME_HURT:
+                ani.playAnimation("attack", deltaTime, r, direction);
+                break;
 
-        switch (state){
-        case SLIME_IDLE:
-            ani.playAnimation("idle", deltaTime, r, direction);
-            break;
-        case SLIME_MOVE:
-            ani.playAnimation("move", deltaTime, r, direction);
-            break;
-        case SLIME_ATTACK:
-            if (ani.playAnimation("attack", deltaTime, r, direction)){
-                isAttacking = false;
+            default:
+                break;
             }
-            break;
-        case SLIME_HURT:
-            ani.playAnimation("attack", deltaTime, r, direction);
-            break;
-        
-        default:
-            break;
         }
     }
-
 
 };
 
@@ -99,7 +119,7 @@ struct Player : public Entity {
     };
 
     Player() {}
-    Player(Rectangle sprite) : Entity(sprite) {
+    Player(Rectangle sprite) : Entity (sprite) {
 
         state = States::PLAYER_IDLE;
         direction = 1;
@@ -159,7 +179,6 @@ struct Player : public Entity {
         if (isAttacking || IsKeyDown(KEY_E)) {
             attack();
             state = States::PLAYER_ATTACK;
-
         }
 
         else if (IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_D) || IsKeyDown(KEY_A)) {
@@ -194,10 +213,15 @@ struct Player : public Entity {
     }
 };
 
+struct compass : public Entity {
+
+};
+
 struct Wizard : public Entity {
     AnimationSheet anim;
     float speed = 0;
     Vector2 position = { 120,120 };
+    Entity _wizard;
 
     enum States {
         WIZARD_IDLE,
@@ -209,7 +233,7 @@ struct Wizard : public Entity {
     };
 
     Wizard() {}
-    Wizard(Rectangle sprite) : Entity(sprite) {
+    Wizard(Rectangle sprite) : _wizard(sprite) {
 
         state = States::WIZARD_IDLE;
         direction = 1;
@@ -282,13 +306,14 @@ struct Wizard : public Entity {
 struct NPC : public Entity {
     AnimationSheet anim;
     float speed = 0;
+    Entity _npc;
 
     enum States {
         NPC_IDLE
     };
 
     NPC() {}
-    NPC(Rectangle sprite) : Entity(sprite) {
+    NPC(Rectangle sprite) : Entity (sprite) {
 
         state = States::NPC_IDLE;
         direction = 0;
