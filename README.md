@@ -13,6 +13,7 @@ Written in modern C++ , **using Raylib**
 
 **Asset credits:**
 
+- <a href ="https://cainos.itch.io/pixel-art-top-down-basic">Tileset</a>
 - <a href ="https://rvros.itch.io/pixel-art-animated-slime">Slime</a>
 - <a href ="https://www.pinterest.com/pin/405394403971243041/">Static boat</a>
 - <a href ="https://www.pinterest.com/pin/726135139937622101/" > Boat </a>
