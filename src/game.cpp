@@ -53,14 +53,8 @@ void Game::ProcessInput(float dt) {
             if (r.isEmpty())
                 stateStack.pop_back();
         }
-        
-        break;
-        if (IsKeyPressed(KEY_Q)) {
-            if (!db.nextDlg()) {
-                stateStack.pop_back();
-            }
-        }
-        break;
+        break;        
+       
     case GAME_ACTIVE:
         if (IsKeyPressed(KEY_Q)){
             stateStack.push_back(GameState::GAME_DIALOGUE);
