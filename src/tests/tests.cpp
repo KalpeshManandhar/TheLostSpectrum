@@ -75,10 +75,10 @@ void testLoop(TestData *t, float deltaTime){
 
 void testDisplay(TestData *t, float deltaTime){
 
-    t->slime1.animate(deltaTime);
-    t->wizard.animatew(deltaTime);
-    t->player.animatep(&t->c, deltaTime);
-    t->npc.animateNPC(deltaTime);
+    t->slime1.animate(&t->c,deltaTime);
+    t->wizard.animate(&t->c,deltaTime);
+    t->player.animate(&t->c, deltaTime);
+    t->npc.animate(&t->c,deltaTime);
 
     //t->boss.animate(&t->c, deltaTime);
     // DialogueBox db;

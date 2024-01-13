@@ -84,6 +84,7 @@ void Game::ProcessInput(float dt) {
     }
 
 }
+Rectangle tile;
 
 void Game::Update( float dt)
 {
@@ -98,6 +99,8 @@ void Game::Update( float dt)
             
             testDisplay(testData, dt);
             level->displayOverlay(&testData->c);
+            DrawRectangleLinesEx(tile, 15, WHITE);
+
             break;
         
         case GAME_DIALOGUE:
@@ -133,11 +136,13 @@ void Game::ResetPlayer()
 {
 }
 
+
+
 void Game::fixedLoop(float dt)
 {
     testFixedLoop(testData, dt);
     
-    Vector2 worldPos = {testData->player.sprite.x,testData->player.sprite.y};
+    Vector2 worldPos = {testData->player.hurtbox.center.x,testData->player.hurtbox.center.z};
     Vector2 tilePos = {worldPos.x/level->destTileW, worldPos.y/level->destTileH};
 
     int startTileX = Max(0, tilePos.x - 4);
@@ -147,7 +152,7 @@ void Game::fixedLoop(float dt)
 
     for (int j = startTileY; j<endTileY; j++){
         for (int i = startTileX; i<endTileX; i++){
-            if (level->collisionMap[j * level->destTileW + i] == -1){
+            if (level->collisionMap[j * level->w + i] == -1){
                 continue;
             }
             
@@ -157,8 +162,17 @@ void Game::fixedLoop(float dt)
                     0,
                     j * level->destTileH + 0.5 * level->destTileH,
                 },
-                level->destTileW
+                level->destTileW * 0.5f
             };
+            tile = {
+                i * level->destTileW + 0.5f * level->destTileW,
+                j * level->destTileH + 0.5f * level->destTileH,
+                (float)level->destTileW,
+                (float)level->destTileH
+            };
+
+            tile = testData->c.toScreenSpace(tile);
+
             if (circleCircleCollisionCheck(testData->player.hurtbox, tileBounds)){
                 printf("Overlap");
                 Vector2 resolution = resolveCircleCollision(testData->player.hurtbox, tileBounds);
@@ -190,5 +204,5 @@ void Game::loadLevel(){
         level->playerSpawn.x - testData->player.sprite.x,
         (level->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
     };
-    testData->player.updatePos(toNewPos);
+    // testData->player.updatePos(toNewPos);
 }
