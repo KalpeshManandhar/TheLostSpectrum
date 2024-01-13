@@ -9,8 +9,9 @@ class riddle
 	const int riddleDialogueSize = 3;
 	const int riddleTextSize = 4;
 	Rectangle characterRect;
-	bool winDisplay,riddleDisplay,empty = false;	
-
+	
+	
+	int state=0;
 	Rectangle dialogueBoxRect;
 	Rectangle dialogueRect;
 	char riddleDialogue[3][100] =
@@ -33,31 +34,35 @@ public:
 	{
 		dialogueBoxRect = { PADDING, windowH * 0.7f - PADDING, windowW - 2 * PADDING, windowH * 0.3f };
 		DrawRectangleRec(dialogueBoxRect, Color{ 64,64,64,128 });
-		//if (winDisplay==false)
-		//{
-			std::cout << "Inside" << std::endl;
-			for (int i = 0; i < 2; i++)			
-				DrawText(TextFormat(riddleDialogue[i]), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + i * 20 + PADDING, 20, WHITE);
-		//}
-		//winDisplay = true;		
-		/*if (!riddleDisplay)
+		std::cout << state << "\n";
+		switch (state)
 		{
+		case 0:
+			//std::cout << "Inside" << std::endl;
+			for (int i = 0; i < 2; i++)
+				DrawText(TextFormat(riddleDialogue[i]), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + i * 20 + PADDING, 20, WHITE);
+			break;
+		case 1:
+			//std::cout << "Inside" << std::endl;
 			for (int i = 0; i < riddleTextSize; i++)
 				DrawText(TextFormat(riddleText[i]), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + i * 20 + PADDING, 20, WHITE);
+			break;
+		default:
+			break;
+		}
 			
-			
-		}*/
-		riddleDisplay = true;
-		winDisplay = true;
-		
-		
-			//DrawText(TextFormat(riddleDialogue[i]),dialogueBoxRect.x+PADDING,dialogueBoxRect.y+PADDING,20,WHITE);
-			//DrawText(riddleDialogue[0], dialogueBoxRect.x + PADDING, dialogueBoxRect.y + PADDING, 20, WHITE);
 	}
-	bool isEmpty()
+	bool choose()
 	{
-		if(riddleDisplay && winDisplay)
-			return !empty;
+		state=(state+1)%3;
+		if (state == 2)
+		{
+			state = 0;
+			return false;
+		}
+		return true;
+
+		
 	}
 
 
