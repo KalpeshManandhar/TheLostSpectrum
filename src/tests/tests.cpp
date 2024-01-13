@@ -43,7 +43,7 @@ TestData* testInit(){
 
     Rectangle c = {
         0,0,
-        100,100
+        300,300
     };
 
     Rectangle p = {
@@ -81,8 +81,8 @@ TestData* testInit(){
     t->npc = NPC(n);
     t->npc.loadNPC();
 
-    //t->p = player();
-    //t->p.playerInit();
+    t->comp = compass(c);
+    t->comp.loadCompass();
 
     r.x += 100;
 
@@ -93,9 +93,6 @@ TestData* testInit(){
 
 
 void testLoop(TestData *t, float deltaTime){
-    //t->slime1.resolveChanges();
-    //t->p.resolveChanges();/*
-    //t->boss.resolveChanges();*/
     t->player.resolveChanges();
 }
 
@@ -104,23 +101,16 @@ void testDisplay(TestData *t, float deltaTime){
     t->wizard.animate(&t->c,deltaTime);
     
     t->npc.animate(&t->c,deltaTime);
-
-    //t->boss.animate(&t->c, deltaTime);
-    // DialogueBox db;
-
-    // db.renderDialogue("I am mad scientist. It's so cool. Sonuvabitch", deltaTime);
 }
 
 void testFixedLoop(TestData *t, float deltaTime){
     
-    //t->wizard.update(deltaTime);
     t->npc.update(deltaTime);
     t->slime[0].update(deltaTime);
     t->slime[1].update(deltaTime);
     t->slime[2].update(deltaTime);
     t->player.update(deltaTime);
-    //t->boss.update(deltaTime);
-    //t->boss.update(deltaTime);
+    t->comp.update(deltaTime);
 
     if (circleCircleCollisionCheck(t->slime[0].hurtbox, t->player.hurtbox)) {
         Vector2 r = resolveCircleCollision(t->slime[0].hurtbox, t->player.hurtbox);
@@ -141,6 +131,8 @@ void displaySlime(TestData* t, float deltaTime) {
     t->wizard.animate(&t->c, deltaTime);
 
     t->npc.animate(&t->c, deltaTime);
+
+    t->comp.animate( deltaTime);
 }
 
 TestData::~TestData()

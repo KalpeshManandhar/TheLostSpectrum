@@ -15,6 +15,7 @@ struct TestData{
     Wizard wizard;
     NPC npc;
 
+    compass comp;
     int tinySlimeHits;
     ~TestData();
 };

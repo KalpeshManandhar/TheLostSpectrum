@@ -214,7 +214,35 @@ struct Player : public Entity {
 };
 
 struct compass : public Entity {
+    AnimationSheet anim;
 
+    enum States {
+        COMPASS_IDLE,
+    };
+
+    compass() {}
+    compass(Rectangle sprite) : Entity(sprite) {
+
+        state = States::COMPASS_IDLE;
+        direction = 1;
+
+
+
+    }
+
+    void loadCompass() {
+        anim = AnimationSheet("./assets/compassbg.png", 67, 68);
+        /*anim.addAnimation("idle", 0, 8, true);*/
+        anim.addAnimation("idle", 0,54 , true);
+        anim.setDefaultAnimation("idle");
+
+        anim.setFPS(5);
+    }
+    void animate(float deltaTime) {
+        Rectangle r = { 0,0,150, 150 };
+
+        anim.playAnimation("idle", deltaTime, r, direction);
+    }
 };
 
 struct Wizard : public Entity {
@@ -343,3 +371,4 @@ struct NPC : public Entity {
         anim.playAnimation("idle", deltaTime, r, direction);
     }
 };
+
