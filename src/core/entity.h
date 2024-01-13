@@ -19,11 +19,15 @@ struct Entity{
     int state;
     int direction;
     int health;
+
+    float attackCooldown;
+    float attackTimer;
     
     int damageCount;
     bool isActive;
     bool isAttacking;
     bool isVulnerable;
+    bool isHurt;
     float invulnerableTime;
 
     Entity(){}
@@ -32,6 +36,8 @@ struct Entity{
         sprite = spriteRect;
 
         damageCount = 0;
+        attackCooldown = 5.0f;
+        attackTimer = 0.0f;
         hurtbox.center.x = sprite.x + 0.5 * sprite.width; 
         hurtbox.center.y = 0; 
         hurtbox.center.z = sprite.y / ZY_FACTOR; 

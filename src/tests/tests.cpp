@@ -117,7 +117,7 @@ void testFixedLoop(TestData *t, float deltaTime){
 
     if (circleCircleCollisionCheck(t->slime[3].hurtbox, t->player.hurtbox)) {
         Vector2 r = resolveCircleCollision(t->slime[3].hurtbox, t->player.hurtbox);
-        t->slime[3].updatePos(r);
+        //t->slime[3].updatePos(r);
         printf("bossSlime");
     }
 

@@ -29,10 +29,6 @@ void Game::Init() {
 
     memset(slimehits, 0, 3 * sizeof(int));
 
-    //Image i = LoadImage("./assets/dungeon.png");
-    //ImageResize(&i, 1280, 720);
-    //testData->background = LoadTextureFromImage(i);
-    //UnloadImage(i);
 }
 
 
@@ -101,12 +97,10 @@ void Game::Update( float dt)
         switch (gs)
         {
         case GAME_ACTIVE:
-            // DrawTexture(testData->background, 0, 0, WHITE);
             testData->c.update();
 
 
             level->displayBase(&testData->c, shardsCollected);
-            //testDisplay(testData, dt);
             
             for (auto &i : interactables){
                 i.animate(&testData->c, dt);
@@ -144,15 +138,17 @@ void Game::Update( float dt)
                 }
             }
 
-            //testData->bossSlime.attackTimer -= GetFrameTime();
-            //if (testData->bossSlime.attackTimer <= 0.f) {
-            //    testData->bossSlime.attack();
-            //}
-            if (circleCircleCollisionCheck(testData->slime[3].hurtbox, testData->player.hurtbox))
-            {
+
+            if (circleCircleCollisionCheck(testData->slime[3].hurtbox, testData->player.hurtbox)){
+            //    const double bossStartTime = GetTime();
+            //    int i = 0;
+            //    if (((GetTime() - (i * testData->slime[3].attackCooldown + bossStartTime)) > testData->slime[3].attackCooldown) && !testData->slime[3].isAttacking) {
+            //        testData->slime[3].state = testData->slime[3].SLIME_ATTACK;
+            //        i++;
+            //    }
                 if (testData->player.isAttacking) {
-                    if ((testData->slime[3].damageCount < 5)) {
-                        testData->slime[3].takeDamage(&testData->c, dt);
+                    if ((testData->slime[3].damageCount < 5 )) {
+                        testData->slime[3].state = testData->slime[3].SLIME_HURT;
                         std::cout << "damage count : " << testData->slime[3].damageCount << "\n";
                     }
                     else if ((testData->slime[3].damageCount >=5) && testData->slime[3].isActive) {
