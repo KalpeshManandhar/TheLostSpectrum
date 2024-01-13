@@ -50,8 +50,11 @@ void Game::ProcessInput(float dt) {
     case GAME_RIDDLE:
         if (IsKeyPressed(KEY_R))
         {
-            if (r.isEmpty())
+            if (!r.choose())
+            {
                 stateStack.pop_back();
+            }
+                
         }
         break;        
        
