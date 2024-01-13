@@ -26,7 +26,7 @@ TestData* testInit(){
     };
     Rectangle p = {
         200,200,
-        149,100
+        180,120
     };
     Rectangle b = {
     100,100,
@@ -73,7 +73,6 @@ void testLoop(TestData *t, float deltaTime){
 }
 
 void testDisplay(TestData *t, float deltaTime){
-    t->c.update();
 
     t->slime1.animate(&t->c, deltaTime);
     //t->p.animate(&t->c, deltaTime);
@@ -93,7 +92,6 @@ void testFixedLoop(TestData *t, float deltaTime){
     //t->boss.update(deltaTime);
 
     if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
-        printf("Overlap");
         Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->player.hurtbox);
         t->slime1.updatePos(r);
     }

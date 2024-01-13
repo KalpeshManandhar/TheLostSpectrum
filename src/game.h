@@ -8,6 +8,7 @@
 #include <stack>
 #include "tests/tests.h"
 #include "./core/interactable.h"
+#include "./core/level.h"
 
 enum GameState {
 	GAME_ACTIVE,
@@ -30,6 +31,8 @@ public:
 	std::vector<Interactable> interactables;
 	DialogueBox db;
 
+	LevelMap *level;	
+
 	unsigned int Width, Height;
 
 	//std::vector<GameLevel> Levels;
@@ -48,6 +51,7 @@ public:
 	void DoCollitions();
 
 	void checkInteractions();
+	void loadLevel();
 
 
 	//reset
