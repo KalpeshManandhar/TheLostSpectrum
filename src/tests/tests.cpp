@@ -101,9 +101,6 @@ void testLoop(TestData *t, float deltaTime){
 
 void testDisplay(TestData *t, float deltaTime){
 
-    t->slime[0].animate(&t->c, deltaTime);
-    t->slime[1].animate(&t->c, deltaTime);
-    t->slime[2].animate(&t->c, deltaTime);
     t->wizard.animate(&t->c,deltaTime);
     
     t->npc.animate(&t->c,deltaTime);
@@ -127,13 +124,7 @@ void testFixedLoop(TestData *t, float deltaTime){
 
     if (circleCircleCollisionCheck(t->slime[0].hurtbox, t->player.hurtbox)) {
         Vector2 r = resolveCircleCollision(t->slime[0].hurtbox, t->player.hurtbox);
-        //printf("sime1 collide");
-        //t->slime[0].updatePos(r);
-        //if (t->player.isAttacking)
-        //{
-        //    t->tinySlimeHits += 1;
-        //    printf("hits = ", t->tinySlimeHits);
-        //}
+        /*t->slime[0].updatePos(r);*/
     }
 
     if (circleCircleCollisionCheck(t->npc.hurtbox, t->player.hurtbox)) {
@@ -142,13 +133,14 @@ void testFixedLoop(TestData *t, float deltaTime){
     }
 }
 
-void updateKill(bool hit) {
+void displaySlime(TestData* t, float deltaTime) {
+    t->slime[0].animate(&t->c, deltaTime);
+    t->slime[1].animate(&t->c, deltaTime);
+    t->slime[2].animate(&t->c, deltaTime);
 
+    t->wizard.animate(&t->c, deltaTime);
 
-}
-
-void deleteSlime(int index) {
-    
+    t->npc.animate(&t->c, deltaTime);
 }
 
 TestData::~TestData()

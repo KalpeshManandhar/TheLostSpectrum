@@ -26,6 +26,7 @@ struct LevelMap{
     int *collisionMap;
 
     Vector2 playerSpawn;
+    Vector2 npcSpawn;
 
     void readInfo(const char *path){
         Lexer l;
@@ -39,6 +40,8 @@ struct LevelMap{
         nTileVert = l.skipAndParseInt();
         playerSpawn.x = l.skipAndParseInt() * destTileW;
         playerSpawn.y = l.skipAndParseInt() * destTileH;
+        npcSpawn.x = playerSpawn.x + 300;
+        npcSpawn.y = playerSpawn.y;
     }
 
     int* readCSV(const char *path){

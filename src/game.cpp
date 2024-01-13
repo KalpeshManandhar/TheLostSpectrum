@@ -23,6 +23,8 @@ void Game::Init() {
     loadLevel();
 
     filterShader = LoadShader(0, "./src/shaders/rgb.fs");
+
+    memset(slimehits, 0, 3 * sizeof(int));
     slimeHit = false;
     //Image i = LoadImage("./assets/dungeon.png");
     //ImageResize(&i, 1280, 720);
@@ -98,7 +100,7 @@ void Game::Update( float dt)
 
 
             level->displayBase(&testData->c, shardsCollected);
-            testDisplay(testData, dt);
+            displaySlime(testData, dt);
             
 
             testData->player.animate(&testData->c, dt);
@@ -245,4 +247,28 @@ void Game::loadLevel(){
         (level->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
     };
     testData->player.updatePos(toNewPos);
+
+    Vector2 npcNewPos = {
+         level->npcSpawn.x - testData->npc.sprite.x,
+        (level->npcSpawn.y - testData->npc.sprite.y) / ZY_FACTOR,
+    };
+    testData->npc.updatePos(npcNewPos);
+
+    Vector2 slime0Pos = {
+        level->playerSpawn.x + 1000 - testData->slime[0].sprite.x,
+        (level->playerSpawn.y + 200 - testData->slime[0].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[0].updatePos(slime0Pos);
+
+    Vector2 slime1Pos = {
+    level->playerSpawn.x + 2000 - testData->slime[1].sprite.x,
+    (level->playerSpawn.y - 200 - testData->slime[1].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[1].updatePos(slime1Pos);
+
+    Vector2 slime2Pos = {
+    level->playerSpawn.x + 3000 - testData->slime[2].sprite.x,
+    (level->playerSpawn.y - 500 - testData->slime[2].sprite.y) / ZY_FACTOR,
+    };
+    testData->slime[2].updatePos(slime2Pos);
 }

@@ -65,7 +65,7 @@ public:
 
 	void fixedLoop(float dt);
 
-
+	int slimehits[3];
 	bool slimeHit;
 };
 

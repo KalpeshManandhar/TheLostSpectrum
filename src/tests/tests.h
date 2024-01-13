@@ -22,4 +22,4 @@ TestData* testInit();
 void testLoop(TestData *t, float deltaTime);
 void testDisplay(TestData *t, float deltaTime);
 void testFixedLoop(TestData *t, float deltaTime);
-void updateKill(bool hit);
+void displaySlime(TestData* t, float deltaTime);
