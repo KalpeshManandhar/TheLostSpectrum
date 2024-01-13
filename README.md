@@ -84,7 +84,7 @@ The game uses all the free spritesheet and art availabe online.
 The game is still in its developmental phase- so hasn't been rigoursly tested.
 
 ### Development Team
-- [Mamata]((https://github.com/Mamata-Maharjan))
+- [Mamata]((https://github.com/Mavis021))
 - [Kalpesh](https://github.com/KalpeshManandhar)
 - [Ishwor](https://github.com/optimistic-ish)
 
