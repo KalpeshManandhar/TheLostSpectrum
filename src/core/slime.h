@@ -132,22 +132,22 @@ struct Player : public Entity {
         anim.addAnimation("attack", 39, 11, false);
         anim.setDefaultAnimation("idle");
 
-        anim.setFPS(7);
+        anim.setFPS(12);
     }
 
     void move() {
         if (IsKeyDown(KEY_W)) {
-            addVelocity(Vector2{ 0,-10.0f });
+            addVelocity(Vector2{ 0,-25.0f });
         }
         else if (IsKeyDown(KEY_S)) {
-            addVelocity(Vector2{ 0, 10.0f });
+            addVelocity(Vector2{ 0, 25.0f });
         }
         if (IsKeyDown(KEY_A)) {
-            addVelocity(Vector2{ -10.0f,0 });
+            addVelocity(Vector2{ -25.0f,0 });
             direction = 0;
         }
         else if (IsKeyDown(KEY_D)) {
-            addVelocity(Vector2{ 10.0f,0 });
+            addVelocity(Vector2{ 25.0f,0 });
             direction = 1;
         }
 
