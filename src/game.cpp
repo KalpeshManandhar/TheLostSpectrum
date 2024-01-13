@@ -160,17 +160,19 @@ void Game::fixedLoop(float dt)
                 },
                 level->destTileW * 0.5f
             };
-            tile = {
-                i * level->destTileW + 0.5f * level->destTileW,
-                j * level->destTileH + 0.5f * level->destTileH,
-                (float)level->destTileW,
-                (float)level->destTileH
-            };
-
-            tile = testData->c.toScreenSpace(tile);
+            
 
             if (circleCircleCollisionCheck(testData->player.hurtbox, tileBounds)){
                 printf("Overlap");
+                tile = {
+                    (float)i * level->destTileW,
+                    (float)j * level->destTileH,
+                    (float)level->destTileW,
+                    (float)level->destTileH
+                };
+
+                tile = testData->c.toScreenSpace(tile);
+                
                 Vector2 resolution = resolveCircleCollision(testData->player.hurtbox, tileBounds);
                 testData->player.updatePos(resolution);
                 break;
