@@ -7,8 +7,6 @@
 #include <string>
 #include <raylib.h>
 
-#define Max(a,b) ((a)>(b)? (a):(b))
-#define Min(a,b) ((a)<(b)? (a):(b))
 
 struct LevelMap{
     // no of tiles in the level map
@@ -16,8 +14,10 @@ struct LevelMap{
 
     int tileW, tileH;
     Texture2D texTilemap;
+    Texture2D texTilemapGrayScale;
     // no of tiles in the tilemap
     int nTileHor, nTileVert;
+    Color mask;
 
     int destTileW, destTileH;
 
@@ -58,9 +58,11 @@ struct LevelMap{
         destTileW = destTileDim.x;
         destTileH = destTileDim.y;
         
-        Image tilesImg = LoadImage("./assets/levelmaps/tilemap.png");
-        texTilemap = LoadTextureFromImage(tilesImg);
-        UnloadImage(tilesImg);
+        Image imgTilemap = LoadImage(tilemapPath);
+        texTilemap = LoadTextureFromImage(imgTilemap);
+        ImageColorGrayscale(&imgTilemap);
+        texTilemapGrayScale = LoadTextureFromImage(imgTilemap);
+        UnloadImage(imgTilemap);
 
         std::string dir(levelDir);
         readInfo((dir + "/info.txt").c_str());
@@ -68,6 +70,11 @@ struct LevelMap{
         base = readCSV((dir + "/base.csv").c_str());
         overlay = readCSV((dir + "/overlay.csv").c_str());
         collisionMap = readCSV((dir + "/collision.csv").c_str());
+        mask = WHITE;
+    }
+
+    void setColorMask(Color colorMask){
+        mask = colorMask;
     }
 
     ~LevelMap(){
@@ -76,9 +83,27 @@ struct LevelMap{
         if (collisionMap) delete[] collisionMap;
     }
 
+    void displayTile(Rectangle src, Rectangle dest, int shardsCollected){
+        switch (shardsCollected){
+        case 0:
+            DrawTexturePro(texTilemapGrayScale, src, dest, {0,0}, 0, {255,255,255,255});
+            break;
+        case 1:
+            DrawTexturePro(texTilemap, src, dest, {0,0}, 0, {165,0,0,255});
+            break;
+        case 2:
+            DrawTexturePro(texTilemap, src, dest, {0,0}, 0, {165,135,0,255});
+            break;
+        case 3:
+            DrawTexturePro(texTilemap, src, dest, {0,0}, 0, WHITE);
+            break;
+        
+        default:
+            break;
+        }
+    }
 
-
-    void displayBase(FollowCamera *c){
+    void displayBase(FollowCamera *c, int shardsCollected){
         int startTileX = Max((c->screen.x)/destTileW,0);
         int startTileY = Max((c->screen.y)/destTileH,0);
 
@@ -103,13 +128,12 @@ struct LevelMap{
                     destTileW, destTileH 
                 };
                 dest = c->toScreenSpace(dest);
-
-                DrawTexturePro(texTilemap, src, dest, {0,0}, 0, WHITE);
+                displayTile(src, dest, shardsCollected);
             }   
         }
 
     }
-    void displayOverlay(FollowCamera *c){
+    void displayOverlay(FollowCamera *c, int shardsCollected){
         int startTileX = Max((c->screen.x)/destTileW,0);
         int startTileY = Max((c->screen.y)/destTileH,0);
 
@@ -136,7 +160,8 @@ struct LevelMap{
                 };
                 dest = c->toScreenSpace(dest);
 
-                DrawTexturePro(texTilemap, src, dest, {0,0}, 0, WHITE);
+                displayTile(src, dest, shardsCollected);
+
             }   
         }
 

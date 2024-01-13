@@ -3,7 +3,7 @@
 #include <raymath.h>
 #include "geometry.h"
 
-#define ZY_FACTOR 0.86f
+#define ZY_FACTOR 1.0f
 
 
 
@@ -32,7 +32,7 @@ struct Entity{
         hurtbox.center.x = sprite.x + 0.5 * sprite.width; 
         hurtbox.center.y = 0; 
         hurtbox.center.z = sprite.y / ZY_FACTOR; 
-        hurtbox.r = sprite.width * 0.3;
+        hurtbox.r = sprite.width * 0.2;
     }
 
     void addVelocity(Vector2 v){

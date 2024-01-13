@@ -52,16 +52,6 @@ TestData* testInit(){
     r.x += 100;
 
     t->c = FollowCamera(&t->player.sprite, 1280,720);
-    // t->c.target = {
-    //     (t->slime1.sprite.x + t->slime1.sprite.width * 0.5f),
-    //     (t->slime1.sprite.y + t->slime1.sprite.height * 0.5f)
-    // };
-
-    // t->c.rotation = 0;
-    // t->c.offset = {1280*0.5,720*0.5};
-    // t->c.zoom = 1.0f;
-    
-
     t->backrect = {-300,-300, 2400,2400};
     return t;
 }
@@ -78,7 +68,7 @@ void testDisplay(TestData *t, float deltaTime){
 
     t->slime1.animate(&t->c,deltaTime);
     t->wizard.animate(&t->c,deltaTime);
-    t->player.animate(&t->c, deltaTime);
+    
     t->npc.animate(&t->c,deltaTime);
 
     //t->boss.animate(&t->c, deltaTime);

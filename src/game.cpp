@@ -22,11 +22,7 @@ void Game::Init() {
     testData = testInit();
     loadLevel();
 
-
-    Image i = LoadImage("./assets/dungeon.png");
-    ImageResize(&i, 1280, 720);
-    testData->background = LoadTextureFromImage(i);
-    UnloadImage(i);
+    filterShader = LoadShader(0, "./src/shaders/rgb.fs");
 }
 
 
@@ -37,7 +33,6 @@ DialogueArray d = {
 };
 
 void Game::ProcessInput(float dt) {
-    std::cout << stateStack.back();
     switch (stateStack.back())
     {
     case GAME_DIALOGUE:
@@ -66,6 +61,9 @@ void Game::ProcessInput(float dt) {
             //db.setNewDialogueArray(&d);
             //break;
         }
+        if (IsKeyPressed(KEY_KP_1)){
+            shardsCollected = (shardsCollected + 1)%4;
+        }
 
 
         // testData->player.resolveChanges();
@@ -88,11 +86,15 @@ void Game::Update( float dt)
         case GAME_ACTIVE:
             // DrawTexture(testData->background, 0, 0, WHITE);
             testData->c.update();
-            level->displayBase(&testData->c);
-            
+
+
+            level->displayBase(&testData->c, shardsCollected);
             testDisplay(testData, dt);
-            level->displayOverlay(&testData->c);
-            DrawRectangleLinesEx(tile, 15, WHITE);
+            
+
+            testData->player.animate(&testData->c, dt);
+            level->displayOverlay(&testData->c, shardsCollected);
+            DrawRectangleLinesEx(tile, 12, WHITE);
 
             break;
         
@@ -135,7 +137,10 @@ void Game::fixedLoop(float dt)
 {
     testFixedLoop(testData, dt);
     
-    Vector2 worldPos = {testData->player.hurtbox.center.x,testData->player.hurtbox.center.z};
+    Vector2 worldPos = {
+        testData->player.sprite.x + 0.5*testData->player.sprite.width,
+        testData->player.sprite.y + 0.5*testData->player.sprite.height
+    };
     Vector2 tilePos = {worldPos.x/level->destTileW, worldPos.y/level->destTileH};
 
     int startTileX = Max(0, tilePos.x - 4);
@@ -199,5 +204,5 @@ void Game::loadLevel(){
         level->playerSpawn.x - testData->player.sprite.x,
         (level->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
     };
-    // testData->player.updatePos(toNewPos);
+    testData->player.updatePos(toNewPos);
 }
