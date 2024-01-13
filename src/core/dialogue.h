@@ -2,8 +2,11 @@
 #include <raylib.h>
 #include <string.h>
 
+#define DLG_ARRAY_SIZE 20
+#define DEFAULT_FONT_SIZE 32
+
 struct DialogueArray{
-    const char *text[];
+    char text[DLG_ARRAY_SIZE][60];
 };
 
 
@@ -17,12 +20,12 @@ struct DialogueBox{
     Rectangle dialogueBoxRect;
     Rectangle dialogueRect;
 
-    static Font font;
-
     const float PADDING = 15;
     const float LINE_SPACING = 10;
     const float CHAR_SPACING = 0;
 
+    int currentDlgIndex;
+    DialogueArray *dlg;
 
     DialogueBox(int windowW = 1280, int windowH = 720){
         dialogueBoxRect = {PADDING, PADDING, windowW - 2 * PADDING, windowH * 0.3f};
@@ -50,7 +53,7 @@ struct DialogueBox{
     }
 
 
-    void renderDialogue(const char *text, float deltaTime, float fontSize=32){
+    void renderDialogue(const char *text, float deltaTime, float fontSize=DEFAULT_FONT_SIZE){
         DrawRectangleLinesEx(characterRect, 6, Color{64,64,64,128});
         DrawRectangleRec(dialogueBoxRect, Color{64,64,64,128});
         
@@ -81,11 +84,24 @@ struct DialogueBox{
 
     }
 
-    void next(){
+    void setNewDialogueArray(DialogueArray * dialogues){
+        dlg = dialogues;
+        currentDlgIndex = 0;
+    }
 
+    bool nextDlg(){
+        currentDlgIndex++;
+        if (currentDlgIndex < DLG_ARRAY_SIZE && dlg->text[currentDlgIndex][0] != 0){
+            return true;
+        }
+        
+        currentDlgIndex = 0;
+        return false;
     }
 
 
+    void show(float deltaTime, float fontSize = DEFAULT_FONT_SIZE){
+        renderDialogue(dlg->text[currentDlgIndex], deltaTime);
+    }
 };
 
-Font DialogueBox::font = GetFontDefault();

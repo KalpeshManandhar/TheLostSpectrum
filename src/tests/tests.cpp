@@ -49,7 +49,7 @@ TestData* testInit(){
 
     r.x += 100;
 
-    t->c = FollowCamera(&t->slime1.sprite, 400,400);
+    t->c = FollowCamera(&t->player.sprite, 400,400);
     // t->c.target = {
     //     (t->slime1.sprite.x + t->slime1.sprite.width * 0.5f),
     //     (t->slime1.sprite.y + t->slime1.sprite.height * 0.5f)
@@ -70,18 +70,6 @@ void testLoop(TestData *t, float deltaTime){
     //t->p.resolveChanges();/*
     //t->boss.resolveChanges();*/
     t->player.resolveChanges();
-
-    if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
-        printf("Overlap");
-        Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->player.hurtbox);
-        t->slime1.updatePos(r);
-    }
-
-    //if (circleCircleCollisionCheck(t->boss.hurtbox, t->player.hurtbox)){
-    //    printf("Overlap");
-    //    Vector2 p = resolveCircleCollision(t->boss.hurtbox, t->player.hurtbox);
-    //    t->player.updatePos(p);
-    //}
 }
 
 void testDisplay(TestData *t, float deltaTime){
@@ -91,9 +79,9 @@ void testDisplay(TestData *t, float deltaTime){
     //t->p.animate(&t->c, deltaTime);
     t->player.animate(&t->c, deltaTime);
 
-    DialogueBox db;
+    // DialogueBox db;
 
-    db.renderDialogue("I am mad scientist. It's so cool. Sonuvabitch", deltaTime);
+    // db.renderDialogue("I am mad scientist. It's so cool. Sonuvabitch", deltaTime);
 }
 
 void testFixedLoop(TestData *t, float deltaTime){
@@ -103,5 +91,11 @@ void testFixedLoop(TestData *t, float deltaTime){
     /*t->slime2.update(deltaTime);*/
     t->player.update(deltaTime);
     //t->boss.update(deltaTime);
+
+    if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
+        printf("Overlap");
+        Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->player.hurtbox);
+        t->slime1.updatePos(r);
+    }
 }
 

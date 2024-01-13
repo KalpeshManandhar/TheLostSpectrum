@@ -3,7 +3,7 @@
 #include "geometry.h"
 
 // uses xz components for circle center
-bool circleCircleCollisionCheck(Circle a, Circle b){
+static inline bool circleCircleCollisionCheck(Circle a, Circle b){
     Vector2 c1 = {a.center.x, a.center.z};
     Vector2 c2 = {b.center.x, b.center.z};
     float dist = Vector2DistanceSqr(c1,c2);
@@ -12,7 +12,7 @@ bool circleCircleCollisionCheck(Circle a, Circle b){
 }
 
 // returns the vector to be added to pos of 'moves' to resolve collision
-Vector2 resolveCircleCollision(Circle moves, Circle stationary){
+static inline Vector2 resolveCircleCollision(Circle moves, Circle stationary){
     Vector2 c1 = {moves.center.x, moves.center.z};
     Vector2 c2 = {stationary.center.x, stationary.center.z};
     Vector2 c1Toc2 = Vector2Normalize(Vector2Subtract(c2,c1));

@@ -5,10 +5,13 @@
 
 #include <raylib.h>
 #include <vector>
+#include <stack>
 #include "tests/tests.h"
+#include "./core/interactable.h"
 
 enum GameState {
 	GAME_ACTIVE,
+	GAME_DIALOGUE,
 	GAME_MENU,
 	GAME_WIN,
 	GAME_OVER,
@@ -20,6 +23,12 @@ class Game{
 public:
 	GameState State;
 	TestData* testData;
+
+	std::vector<GameState> stateStack;
+
+
+	std::vector<Interactable> interactables;
+	DialogueBox db;
 
 	unsigned int Width, Height;
 
@@ -37,6 +46,8 @@ public:
 	void ProcessInput(float dt);
 	void Update( float dt);
 	void DoCollitions();
+
+	void checkInteractions();
 
 
 	//reset
