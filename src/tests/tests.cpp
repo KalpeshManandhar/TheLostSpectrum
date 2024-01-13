@@ -49,7 +49,7 @@ TestData* testInit(){
 
     r.x += 100;
 
-    t->c = FollowCamera(&t->player.sprite, 400,400);
+    t->c = FollowCamera(&t->player.sprite, 1280,720);
     // t->c.target = {
     //     (t->slime1.sprite.x + t->slime1.sprite.width * 0.5f),
     //     (t->slime1.sprite.y + t->slime1.sprite.height * 0.5f)
