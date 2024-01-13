@@ -20,7 +20,7 @@ class inputBox
 	int framesCounter = 0;
 
 public:
-	void drawInputBox()
+	bool drawInputBox()
 	{
 		SetMouseCursor(MOUSE_CURSOR_IBEAM);
 
@@ -76,7 +76,7 @@ public:
 		if (IsKeyPressed(KEY_ENTER))
 		{
 			std::cout << answer << '\n';
-			return;
+			return true;
 			
 		}
 	}
@@ -123,7 +123,7 @@ public:
 			else
 			{
 				std::cout << "YAY";
-				FILE << "THIS is the answer to the riddle";
+				FILE << "rainbow";
 
 			}
 			FILE.close();
