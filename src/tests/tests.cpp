@@ -53,7 +53,7 @@ TestData* testInit(){
 
     Rectangle b = {
     100,100,
-    97,100
+    200,200
     };
 
     Rectangle n = {
@@ -64,23 +64,31 @@ TestData* testInit(){
 
     t->slime[0] = Slime(s0);
     t->slime[0].loadAnimations();
+    t->slime[0].hurtbox.r *= 1.2;
 
     t->slime[1] = Slime(s1);
     t->slime[1].loadAnimations();
+    t->slime[0].hurtbox.r *= 1.2;
 
     t->slime[2] = Slime(s2);
     t->slime[2].loadAnimations();
+    t->slime[0].hurtbox.r *= 1.2;
 
     t->player = Player(p);
     t->player.loadPlayerAnimations();
-
+    t->slime[0].hurtbox.r *= 1.5;
 
     t->wizard = Wizard();
     t->wizard.loadWizardAnimations();
 
+    t->bossSlime = Slime(b);
+    t->bossSlime.loadAnimations();
+    t->slime[0].hurtbox.r *= 3.5;
+    
     t->npc = NPC(n);
     t->npc.loadNPC();
-
+    t->slime[0].hurtbox.r *= 1.5;
+   
     t->comp = compass(c);
     t->comp.loadCompass();
 
@@ -96,25 +104,20 @@ void testLoop(TestData *t, float deltaTime){
     t->player.resolveChanges();
 }
 
-void testDisplay(TestData *t, float deltaTime){
-
-    t->wizard.animate(&t->c,deltaTime);
-    
-    t->npc.animate(&t->c,deltaTime);
-}
-
 void testFixedLoop(TestData *t, float deltaTime){
     
     t->npc.update(deltaTime);
     t->slime[0].update(deltaTime);
     t->slime[1].update(deltaTime);
     t->slime[2].update(deltaTime);
+    t->bossSlime.update(deltaTime);
     t->player.update(deltaTime);
     t->comp.update(deltaTime);
 
-    if (circleCircleCollisionCheck(t->slime[0].hurtbox, t->player.hurtbox)) {
-        Vector2 r = resolveCircleCollision(t->slime[0].hurtbox, t->player.hurtbox);
-        /*t->slime[0].updatePos(r);*/
+    if (circleCircleCollisionCheck(t->bossSlime.hurtbox, t->player.hurtbox)) {
+        Vector2 r = resolveCircleCollision(t->bossSlime.hurtbox, t->player.hurtbox);
+        t->bossSlime.updatePos(r);
+        printf("bossSlime");
     }
 
     if (circleCircleCollisionCheck(t->npc.hurtbox, t->player.hurtbox)) {
@@ -133,6 +136,8 @@ void displaySlime(TestData* t, float deltaTime) {
     t->npc.animate(&t->c, deltaTime);
 
     t->comp.animate( deltaTime);
+
+    t->bossSlime.animate(&t->c, deltaTime);
 }
 
 TestData::~TestData()

@@ -27,6 +27,7 @@ struct LevelMap{
 
     Vector2 playerSpawn;
     Vector2 npcSpawn;
+    Vector2 bossSlimeSpawn;
 
     void readInfo(const char *path){
         Lexer l;

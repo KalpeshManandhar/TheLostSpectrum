@@ -9,6 +9,10 @@ struct Slime: public Entity{
     AnimationSheet ani;
 
     bool isActive;
+    float attackCooldown;
+    float attackTimer;
+    int damageCount;
+
     enum States {
         SLIME_IDLE,
         SLIME_MOVE,
@@ -24,6 +28,9 @@ struct Slime: public Entity{
         state = States::SLIME_IDLE;
         direction = 1;
         isActive = true;
+        attackCooldown = 5.0f;
+        attackTimer = 0.0f;
+        damageCount = 0;
     }
 
     void loadAnimations(){
@@ -59,8 +66,10 @@ struct Slime: public Entity{
         isAttacking = true;
     }
     
-    void takeDamage(){
-
+    void takeDamage(FollowCamera* c, float deltaTime){
+        Rectangle r = c->toScreenSpace(sprite);
+        ani.addAnimation("hurt", 13, 4, false);
+        damageCount++;
     }
 
     void resolveChanges(){
@@ -87,6 +96,7 @@ struct Slime: public Entity{
                 if (ani.playAnimation("attack", deltaTime, r, direction)) {
                     isAttacking = false;
                 }
+                attackTimer = attackCooldown;
                 break;
             case SLIME_DIE:
                 ani.playAnimation("die", deltaTime, r, direction);

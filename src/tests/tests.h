@@ -6,6 +6,7 @@
 
 struct TestData{
     Slime* slime;
+    Slime bossSlime;
 
     FollowCamera c;
     // Camera2D c;

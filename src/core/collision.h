@@ -23,3 +23,27 @@ static inline Vector2 resolveCircleCollision(Circle moves, Circle stationary){
     float dist = Vector2Distance(boundary1, boundary2);
     return Vector2Scale(c2Toc1, dist);
 }
+
+//bool circleRect(Circle c, float rx, float ry, float rw, float rh) {
+//
+//    // temporary variables to set edges for testing
+//    float testX = c.center.x;
+//    float testY = c. center.y;
+//
+//    // which edge is closest?
+//    if (c.center.x < rx)         testX = rx;      // test left edge
+//    else if (c.center.x > rx + rw) testX = rx + rw;   // right edge
+//    if (cy < ry)         testY = ry;      // top edge
+//    else if (cy > ry + rh) testY = ry + rh;   // bottom edge
+//
+//    // get distance from closest edges
+//    float distX = c.center.x - testX;
+//    float distY = cy - testY;
+//    float distance = sqrt((distX * distX) + (distY * distY));
+//
+//    // if the distance is less than the radius, collision!
+//    if (distance <= c.r) {
+//        return true;
+//    }
+//    return false;
+//}
