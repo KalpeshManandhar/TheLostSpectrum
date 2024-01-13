@@ -3,6 +3,79 @@
 #include "dialogue.h"
 #include <iostream>
 
+
+
+class inputBox
+{
+	int screenWidth = GetScreenWidth();
+	int screenHeight = GetScreenHeight();
+
+	char name[10 + 1] = "\0";
+	int letterCount = 0;
+
+	Rectangle textBox = { screenWidth / 2.0f - 100, 180, 225, 50 };
+	bool mouseOnText = false;
+
+	int framesCounter = 0;
+
+public:
+	void drawInputBox()
+	{
+		SetMouseCursor(MOUSE_CURSOR_IBEAM);
+
+		// Get char pressed (unicode character) on the queue
+		int key = GetCharPressed();
+
+		// Check if more characters have been pressed on the same frame
+		while (key > 0)
+		{
+			// NOTE: Only allow keys in range [32..125]
+			if ((key >= 32) && (key <= 125) && (letterCount < 10))
+			{
+				name[letterCount] = (char)key;
+				name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
+				letterCount++;
+			}
+
+			key = GetCharPressed();  // Check next character in the queue
+		}
+
+		if (IsKeyPressed(KEY_BACKSPACE))
+		{
+			letterCount--;
+			if (letterCount < 0) letterCount = 0;
+			name[letterCount] = '\0';
+		}
+
+		else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+
+		if (mouseOnText) framesCounter++;
+		else framesCounter = 0;
+
+
+		//DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
+
+		DrawRectangleRec(textBox, LIGHTGRAY);
+		if (mouseOnText) DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);
+		else DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, DARKGRAY);
+
+		DrawText(name, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
+
+		DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, 10), 315, 250, 20, DARKGRAY);
+
+		if (mouseOnText)
+		{
+			if (letterCount < 10)
+			{
+				// Draw blinking underscore char
+				if (((framesCounter / 20) % 2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
+			}
+			else DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, GRAY);
+		}
+	}
+
+};
+
 class riddle
 {
 	const float PADDING = 10;
@@ -10,6 +83,7 @@ class riddle
 	const int riddleTextSize = 4;
 	Rectangle characterRect;
 	
+	inputBox box;
 	
 	int state=0;
 	Rectangle dialogueBoxRect;
@@ -39,7 +113,7 @@ public:
 		{
 		case 0:
 			//std::cout << "Inside" << std::endl;
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < riddleDialogueSize; i++)
 				DrawText(TextFormat(riddleDialogue[i]), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + i * 20 + PADDING, 20, WHITE);
 			break;
 		case 1:
@@ -47,15 +121,20 @@ public:
 			for (int i = 0; i < riddleTextSize; i++)
 				DrawText(TextFormat(riddleText[i]), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + i * 20 + PADDING, 20, WHITE);
 			break;
+		case 2:
+			box.drawInputBox();
+			break;
+
 		default:
 			break;
 		}
 			
 	}
+
 	bool choose()
 	{
-		state=(state+1)%3;
-		if (state == 2)
+		state=(state+1)%4;
+		if (state == 3)
 		{
 			state = 0;
 			return false;
@@ -67,3 +146,4 @@ public:
 
 
 };
+
