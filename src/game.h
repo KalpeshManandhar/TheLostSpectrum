@@ -55,7 +55,7 @@ public:
 	void Update( float dt);
 	void DoCollitions();
 
-	void checkInteractions();
+	bool checkInteractions();
 	void loadLevel();
 
 

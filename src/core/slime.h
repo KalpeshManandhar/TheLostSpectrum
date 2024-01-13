@@ -7,7 +7,6 @@
 
 struct Slime: public Entity{
     AnimationSheet ani;
-    Entity _slime;
 
     enum States {
         SLIME_IDLE,
@@ -19,7 +18,7 @@ struct Slime: public Entity{
     };
 
     Slime(){}
-    Slime(Rectangle sprite): _slime (sprite){
+    Slime(Rectangle sprite): Entity (sprite){
 
         state = States::SLIME_IDLE;
         direction = 1;
@@ -303,7 +302,7 @@ struct NPC : public Entity {
     };
 
     NPC() {}
-    NPC(Rectangle sprite) : _npc(sprite) {
+    NPC(Rectangle sprite) : Entity (sprite) {
 
         state = States::NPC_IDLE;
         direction = 0;

@@ -183,14 +183,17 @@ void Game::fixedLoop(float dt)
     }
 }
 
-void Game::checkInteractions(){
-    for (auto interactable: interactables){
-        if (circleCircleCollisionCheck(testData->player.hurtbox, interactable.triggerRange)){
-            stateStack.push_back(GameState::GAME_DIALOGUE);
-            db.setNewDialogueArray(&interactable.dialogues);
-            break;
-        }
+bool Game::checkInteractions(){
+    //for (auto interactable: interactables){
+        if (circleCircleCollisionCheck(testData->player.hurtbox, testData->npc.hurtbox)){
+            //stateStack.push_back(GameState::GAME_DIALOGUE);
+            //db.setNewDialogueArray(&d);
+        //    db.setNewDialogueArray(&interactable.dialogues);
+        //    break;}
+        
+            return true;
     }
+        return false;
 }
 
 // void Game::getInteractables(){

@@ -21,15 +21,23 @@ TestData* testInit(){
     t= new TestData;
 
     Rectangle r = {
-        0,0,
-        300,300    };
+        1500,700,
+        200,150    };
+
+
     Rectangle p = {
-        200,200,
+        1500,500,
         180,120
     };
+
     Rectangle b = {
     100,100,
     97,100
+    };
+
+    Rectangle n = {
+        1700, 500,
+        94, 91
     };
     // t.slime = slimeAnimate();
     t->slime1 = Slime(r);
@@ -42,7 +50,7 @@ TestData* testInit(){
     t->wizard = Wizard();
     t->wizard.loadWizardAnimations();
 
-    t->npc = NPC();
+    t->npc = NPC(n);
     t->npc.loadNPC();
 
     //t->p = player();
@@ -89,7 +97,7 @@ void testDisplay(TestData *t, float deltaTime){
 void testFixedLoop(TestData *t, float deltaTime){
     
     //t->wizard.update(deltaTime);
-    //t->npc.update(deltaTime);
+    t->npc.update(deltaTime);
     t->slime1.update(deltaTime);
     t->player.update(deltaTime);
     //t->boss.update(deltaTime);
@@ -98,6 +106,11 @@ void testFixedLoop(TestData *t, float deltaTime){
     if (circleCircleCollisionCheck(t->slime1.hurtbox, t->player.hurtbox)) {
         Vector2 r = resolveCircleCollision(t->slime1.hurtbox, t->player.hurtbox);
         t->slime1.updatePos(r);
+    }
+
+    if (circleCircleCollisionCheck(t->npc.hurtbox, t->player.hurtbox)) {
+        Vector2 r = resolveCircleCollision(t->npc.hurtbox, t->player.hurtbox);
+        t->npc.updatePos(r);
     }
 }
 
