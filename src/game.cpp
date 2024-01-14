@@ -6,6 +6,8 @@
 #include "core/collision.h"
 #include <assert.h>
 
+#include "info.h"
+
 Game::Game(unsigned int width, unsigned int height): db(width, height){
     stateStack.push_back(GameState::GAME_ACTIVE);
     Width = width;
@@ -21,11 +23,14 @@ Game::~Game() {
 
 void Game::Init() {
     testData = testInit();
-    loadLevel();
+    level1 = loadLevel(level1INFO.levelDir);
+    currentLevel = level1;
 
     filterShader = LoadShader(0, "./src/shaders/rgb.fs");
 
-    loadInteractable("./assets/npcs/npc2.txt");
+    loadInteractable(level1INFO.interactFiles[0]);
+    loadInteractable(level1INFO.interactFiles[1]);
+
 
     memset(slimehits, 0, 3 * sizeof(int));
 }
@@ -75,6 +80,18 @@ void Game::ProcessInput(float dt) {
         if (IsKeyPressed(KEY_KP_1)){
             shardsCollected = (shardsCollected + 1)%4;
         }
+        if (IsKeyPressed(KEY_X)){
+            level2 = loadLevel(level2INFO.levelDir);
+            interactables.clear();
+            loadInteractable(level2INFO.interactFiles[0]);
+
+            currentLevel = level2;
+            Vector2 toNewPos = {
+                currentLevel->playerSpawn.x - testData->player.sprite.x,
+                (currentLevel->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
+            };
+            testData->player.updatePos(toNewPos);
+        }
 
 
         // testData->player.resolveChanges();
@@ -99,17 +116,19 @@ void Game::Update( float dt)
             testData->c.update();
 
 
-            level->displayBase(&testData->c, shardsCollected);
+            currentLevel->displayBase(&testData->c, shardsCollected);
             
             for (auto &i : interactables){
                 i.animate(&testData->c, dt);
             }
-            displaySlime(testData, dt);
+            if (currentLevel != level2){
+                displaySlime(testData, dt);
+            }
 
 
             testData->player.animate(&testData->c, dt);
 
-            level->displayOverlay(&testData->c, shardsCollected);
+            currentLevel->displayOverlay(&testData->c, shardsCollected);
             DrawRectangleLinesEx(tile, 12, WHITE);
 
             if (circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox))
@@ -185,36 +204,36 @@ void Game::fixedLoop(float dt)
         testData->player.sprite.x + 0.5*testData->player.sprite.width,
         testData->player.sprite.y + 0.5*testData->player.sprite.height
     };
-    Vector2 tilePos = {worldPos.x/level->destTileW, worldPos.y/level->destTileH};
+    Vector2 tilePos = {worldPos.x/currentLevel->destTileW, worldPos.y/currentLevel->destTileH};
 
     int startTileX = Max(0, tilePos.x - 4);
     int startTileY = Max(0, tilePos.y - 4);
-    int endTileX = Min(level->w, tilePos.x + 4);
-    int endTileY = Min(level->h, tilePos.y + 4);
+    int endTileX = Min(currentLevel->w, tilePos.x + 4);
+    int endTileY = Min(currentLevel->h, tilePos.y + 4);
 
     for (int j = startTileY; j<endTileY; j++){
         for (int i = startTileX; i<endTileX; i++){
-            if (level->collisionMap[j * level->w + i] == -1){
+            if (currentLevel->collisionMap[j * currentLevel->w + i] == -1){
                 continue;
             }
             
             Circle tileBounds = {
                 {
-                    i * level->destTileW + 0.5 * level->destTileW,
+                    i * currentLevel->destTileW + 0.5 * currentLevel->destTileW,
                     0,
-                    j * level->destTileH + 0.5 * level->destTileH,
+                    j * currentLevel->destTileH + 0.5 * currentLevel->destTileH,
                 },
-                level->destTileW * 0.5f
+                currentLevel->destTileW * 0.5f
             };
             
 
             if (circleCircleCollisionCheck(testData->player.hurtbox, tileBounds)){
                 printf("Overlap");
                 tile = {
-                    (float)i * level->destTileW,
-                    (float)j * level->destTileH,
-                    (float)level->destTileW,
-                    (float)level->destTileH
+                    (float)i * currentLevel->destTileW,
+                    (float)j * currentLevel->destTileH,
+                    (float)currentLevel->destTileW,
+                    (float)currentLevel->destTileH
                 };
 
                 tile = testData->c.toScreenSpace(tile);
@@ -243,8 +262,12 @@ bool Game::checkInteractions(){
     // Interactable npc1 = 
 // }
 
-void Game::loadLevel(){
-    level = new LevelMap("./assets/levelmaps/levelA", "./assets/levelmaps/levelA/tilemap.png", {128,128});
+
+LevelMap* Game::loadLevel(const char * levelDir){
+    std::string dir(levelDir);
+
+
+    LevelMap* level = new LevelMap(levelDir, (dir + "/tilemap.png").c_str(), {128,128});
     Vector2 toNewPos = {
         level->playerSpawn.x - testData->player.sprite.x,
         (level->playerSpawn.y - testData->player.sprite.y)/ZY_FACTOR,
@@ -280,13 +303,15 @@ void Game::loadLevel(){
     (level->playerSpawn.y - 600 - testData->slime[3].sprite.y) / ZY_FACTOR,
     };
     testData->slime[3].updatePos(bossSlimePos);
+
+    return level;
 }
 
 void Game::loadInteractable(const char *file){
     Lexer l;
     l.loadFile(file);
-    int x = level->destTileW * l.skipAndParseInt();
-    int y = level->destTileH * l.skipAndParseInt();
+    int x = currentLevel->destTileW * l.skipAndParseInt();
+    int y = currentLevel->destTileH * l.skipAndParseInt();
     int w = l.skipAndParseInt();
     int h = l.skipAndParseInt();
     
@@ -336,5 +361,11 @@ void Game::loadInteractable(const char *file){
             break;
         l.skipCurrentLine();
     }
+
+}
+
+
+
+void loadLevelFromFile(){
 
 }

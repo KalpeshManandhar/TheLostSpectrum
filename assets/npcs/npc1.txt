@@ -1,0 +1,12 @@
+10,56,100,100
+./assets/npcs/npc1.png
+94,91,
+idle: 0,4,
+"Greetings.
+You are not from here it seems.
+Chromaterra doesn't have much to see at the moment.
+Once colorful, it changed when the heart was shattered.
+Only a true warrior, not from here, 
+adorned with the full spectrum of colors can save this land.
+If you wish to, then please lend us your aid.
+"

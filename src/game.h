@@ -33,9 +33,11 @@ public:
 	DialogueBox db;
 	riddle r;
 
-	LevelMap *level;	
+	LevelMap *level1;	
+	LevelMap *level2;	
+	LevelMap *currentLevel;	
 
-	int shardsCollected = 0;
+	int shardsCollected = 1;
 	Shader filterShader;
 
 	unsigned int Width, Height;
@@ -56,8 +58,8 @@ public:
 	void DoCollitions();
 
 	bool checkInteractions();
-	void loadLevel();
-	void loadInteractable(const char *file);
+	LevelMap *loadLevel(const char * leveldir);
+	void loadInteractable(const char *fil);
 
 
 	//reset

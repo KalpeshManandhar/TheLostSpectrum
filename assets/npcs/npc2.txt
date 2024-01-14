@@ -2,6 +2,6 @@
 ./assets/npcs/npc2.png
 64,64,
 idle: 0,9,
-"Hello there!
-Konnichiwa!
-Bonjour!"
+"Greetings traveller!
+Nice to see a colorful face like yours here.
+Everything else is just monochrome sadneess."

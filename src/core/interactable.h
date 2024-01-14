@@ -10,6 +10,7 @@ struct Interactable{
 
     DialogueArray dialogues;
 
+    Interactable(){}
     Interactable(const char *spritePath, int w, int h){
         anim = AnimationSheet(spritePath,  w, h);
 

@@ -2,4 +2,4 @@
 32,32,
 84,16,
 7,15,
-SHARD: 7,2
+SHARD: shard.txt

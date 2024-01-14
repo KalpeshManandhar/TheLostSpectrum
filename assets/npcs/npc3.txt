@@ -1,0 +1,7 @@
+7,15,160,40
+./assets/npcs/npc3.png
+82,23,
+idle: 0,9,
+
+"Only you can save this realm.
+Go get the shard brave hero!"

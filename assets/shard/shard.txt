@@ -1,0 +1,5 @@
+7,2,64,64
+./assets/shard/fragments.png
+32,32,
+idle: 0,1,
+"Something seems to have changed."

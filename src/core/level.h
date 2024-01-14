@@ -2,10 +2,12 @@
 
 #include "camera.h"
 #include "lexer.h"
+#include "interactable.h"
 
 #include <stdio.h>
 #include <string>
 #include <raylib.h>
+
 
 
 struct LevelMap{
@@ -28,6 +30,8 @@ struct LevelMap{
     Vector2 playerSpawn;
     Vector2 npcSpawn;
     Vector2 bossSlimeSpawn;
+
+    Interactable interactable[10];
 
     void readInfo(const char *path){
         Lexer l;
