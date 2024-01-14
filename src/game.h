@@ -37,7 +37,7 @@ public:
 	LevelMap *level2;	
 	LevelMap *currentLevel;	
 
-	int shardsCollected = 1;
+	int shardsCollected = 2;
 	Shader filterShader;
 
 	unsigned int Width, Height;

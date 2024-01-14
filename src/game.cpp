@@ -129,7 +129,7 @@ void Game::Update( float dt)
             testData->player.animate(&testData->c, dt);
 
             currentLevel->displayOverlay(&testData->c, shardsCollected);
-            DrawRectangleLinesEx(tile, 12, WHITE);
+            // DrawRectangleLinesEx(tile, 12, WHITE);
 
             if (circleCircleCollisionCheck(testData->slime[0].hurtbox, testData->player.hurtbox))
             {

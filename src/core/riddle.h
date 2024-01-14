@@ -186,7 +186,7 @@ public:
 			{
 				dialogueBoxRect = { PADDING*4, windowH * 0.35f - PADDING, windowW - 6 * PADDING, windowH * 0.1f };
 				DrawRectangleRec(dialogueBoxRect, Color{ 64,64,64,128 });
-				DrawText(TextFormat("CONGRATULATIONS!!!YOU HAVE RESTORED THE COLORS"), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + PADDING, 40, WHITE);
+				DrawText(TextFormat("Something seems to have changed"), dialogueBoxRect.x + PADDING, dialogueBoxRect.y + PADDING, 40, WHITE);
 				if (IsKeyPressed(KEY_B))
 					state = 10;
 
